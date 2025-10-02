@@ -1,0 +1,37 @@
+.navbar_main {
+  padding: 10px;
+  width: 100%;
+  background-color: rgb(170, 170, 170);
+  .navbar_size {
+    margin: auto;
+    width: 1280px;
+    display: flex;
+    .logo {
+      width: 100px;
+      height: 50px;
+      img {
+        width: 100%;
+        border-radius: 10px;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .buttons {
+      display: flex;
+      align-items: center;
+      a {
+        text-decoration: none;
+        color: rgb(34, 34, 34);
+        font-family: "Arimo";
+        font-size: 24px;
+        margin: 0px 5px;
+        border-radius: 10px;
+        padding: 5px;
+        transition: 0.5s ease-in-out;
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.267);
+        }
+      }
+    }
+  }
+}

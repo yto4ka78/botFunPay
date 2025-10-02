@@ -1,0 +1,41 @@
+@mixin mainContainer {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  width: 500px;
+  height: 100vh;
+}
+@mixin formDiv {
+  box-shadow: inset 0px 0px 10px rgb(0, 0, 0);
+  margin-bottom: 150px;
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid rgb(146, 146, 146);
+  padding: 20px;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  &:hover {
+    background-color: rgb(233, 233, 233);
+  }
+}
+
+@mixin greyButton {
+  margin: 0 10px;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3d3d3d;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+  border: none;
+  &:hover {
+    background-color: #272727;
+  }
+}

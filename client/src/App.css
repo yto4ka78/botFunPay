@@ -1,0 +1,17 @@
+@import "./assets/fonts.scss";
+@import "./assets/global.scss";
+
+body {
+  margin: 0;
+  background-color: #ffffff;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+h3 {
+  margin: 0;
+  padding: 0;
+}
