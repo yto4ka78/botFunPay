@@ -15,6 +15,7 @@
     "react-router-dom": "^7.9.2",
     "react-scripts": "5.0.1",
     "sass": "^1.93.2",
+    "sequelize": "^6.37.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

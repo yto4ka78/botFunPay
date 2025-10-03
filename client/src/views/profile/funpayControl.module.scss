@@ -1,0 +1,61 @@
+@import "../../assets/global.scss";
+@import "../../assets/fonts.scss";
+
+.main {
+  width: 100%;
+  h1 {
+    font-weight: 300;
+    font-family: "Alan Sans";
+  }
+  .accounts_container {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    .label {
+      font-weight: 600;
+      font-size: 22px;
+      font-family: "Barlow Condensed";
+      margin-bottom: 5px;
+    }
+    .accounts_name {
+      display: flex;
+      border-bottom: 1px solid black;
+      padding-bottom: 5px;
+      .value {
+        font-family: "Barlow Condensed";
+
+        font-size: 22px;
+      }
+      button {
+        background-color: transparent;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+      }
+    }
+  }
+  .add_account {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    h2 {
+      margin: 0;
+      font-weight: 300;
+      margin-bottom: 10px;
+    }
+    button {
+      font-size: 16px;
+      background-color: transparent;
+      border: 1px solid black;
+      border-radius: 10px;
+      padding: 10px;
+      transition: 0.3s ease-in-out;
+      cursor: pointer;
+      &:hover {
+        background-color: black;
+        color: white;
+      }
+    }
+  }
+}

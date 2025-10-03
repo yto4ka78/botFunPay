@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const api = axios.create({
+const api = axios.create({
   baseURL: "/api",
   withCredentials: true,
   xsrfCookieName: "XSRF-TOKEN",
@@ -23,3 +23,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export default api;

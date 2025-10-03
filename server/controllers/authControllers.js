@@ -1,4 +1,9 @@
-class authControlles {
+class authControllers {
+  static async registration(req, res) {
+    try {
+    } catch {}
+  }
+
   static async login(req, res) {
     try {
       const { email, password } = req.body;
@@ -31,4 +36,4 @@ class authControlles {
     }
   }
 }
-export default authControlles;
+export default authControllers;

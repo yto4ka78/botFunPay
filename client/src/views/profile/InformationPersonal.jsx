@@ -35,6 +35,7 @@ const InformationPersonal = () => {
       </div>
 
       <div className={styles.change_info_user}>
+        <h2>Change info account</h2>
         <form onSubmit={handleSubmit}>
           <label>New email</label>
           <input

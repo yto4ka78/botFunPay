@@ -1,0 +1,10 @@
+{
+  "name": "FunPay Connector (dev)",
+  "version": "0.1.0",
+  "manifest_version": 3,
+
+  "permissions": ["cookies"],
+  "host_permissions": ["https://funpay.com/*", "http://localhost:5000/*"],
+
+  "action": { "default_popup": "popup.html", "default_title": "Connect to FP" }
+}
