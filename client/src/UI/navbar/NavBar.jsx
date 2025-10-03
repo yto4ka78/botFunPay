@@ -15,6 +15,10 @@ const NavBar = () => {
           <Link to="">Main</Link>
           <Link to="">Functions</Link>
         </div>
+        <div className={styles.flex}></div>
+        <div className={styles.profile_buttons}>
+          <Link to="/profile">👤 Profile</Link>
+        </div>
       </div>
     </div>
   );

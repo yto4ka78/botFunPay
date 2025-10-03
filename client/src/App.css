@@ -1,6 +1,10 @@
 @import "./assets/fonts.scss";
 @import "./assets/global.scss";
 
+p {
+  margin: 0;
+}
+
 body {
   margin: 0;
   background-color: #ffffff;

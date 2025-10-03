@@ -2,7 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import "./App.css";
 import Main from "./views/main/Main";
 import Login from "./views/autorisation/Login";
+import Registration from "./views/autorisation/Registration";
 import Layout from "./views/layout/Layout";
+import ProfileNavigator from "./views/profile/ProfileNavigator";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
           <Route element={<Layout />}>
             <Route index element={<Main />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="/profile" element={<ProfileNavigator />} />
           </Route>
         </Routes>
       </BrowserRouter>
