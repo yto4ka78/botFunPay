@@ -6,13 +6,22 @@ export default (sequelize) => {
     async validPassword(password) {
       return bcrypt.compare(password, this.password);
     }
+
+    static associate(models) {
+      this.hasMany(models.FunpayAccount, {
+        as: "FunpayAccount",
+        foreignKey: { name: "userId", allowNull: false },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
+    }
   }
 
   User.init(
     {
       id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       email: {
@@ -32,7 +41,7 @@ export default (sequelize) => {
         allowNull: false,
       },
       roles: {
-        type: Sequelize.JSON,
+        type: DataTypes.JSON,
         allowNull: false,
       },
       isVerified: {

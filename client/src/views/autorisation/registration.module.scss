@@ -18,10 +18,10 @@
         margin-bottom: 5px;
         border: 1px solid black;
       }
-      button {
-        margin: 10px 0px !important;
-        @include greyButton;
-      }
+    }
+    button {
+      margin: 10px 0px !important;
+      @include greyButton;
     }
   }
 }

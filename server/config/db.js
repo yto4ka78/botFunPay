@@ -1,21 +1,4 @@
-import { Sequelize } from "sequelize";
-
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USERNAME,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: "mysql",
-    logging: false,
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 20000,
-      idle: 5000,
-    },
-  }
-);
+import { sequelize, initModels } from "../models/index.js";
 
 const connectDB = async () => {
   try {
@@ -28,14 +11,27 @@ const connectDB = async () => {
 };
 
 const syncBD = async () => {
-  sequelize
-    .sync({ force: false })
-    .then(() => {
-      console.log("All models were synchronized successfully.");
-    })
-    .catch((error) => {
-      console.error("Error synchronizing models:", error.message);
-    });
+  await initModels();
+  console.log("Models:", Object.keys(sequelize.models));
+  if (process.env.NODE_ENV === "dev") {
+    sequelize
+      .sync({ force: true })
+      .then(() => {
+        console.log("All models were synchronized successfully and forced.");
+      })
+      .catch((error) => {
+        console.error("Error synchronizing models:", error.message);
+      });
+  } else {
+    sequelize
+      .sync({ alter: true })
+      .then(() => {
+        console.log("All models were synchronized successfully.");
+      })
+      .catch((error) => {
+        console.error("Error synchronizing models:", error.message);
+      });
+  }
 };
 
 export default { sequelize, connectDB, syncBD };

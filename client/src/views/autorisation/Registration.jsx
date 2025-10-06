@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./registration.module.scss";
+import api from "../../middleware/api";
 
 const Registration = () => {
   const [formAuth, setFormAuth] = useState({
@@ -7,10 +8,17 @@ const Registration = () => {
     password: "",
     repeatPassword: "",
   });
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleChangeFormAuth = (e) => {
     const { name, value } = e.target;
     setFormAuth((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmitForm = async () => {
+    try {
+      const response = await api("/auth/registration", formAuth);
+    } catch {}
   };
 
   return (
@@ -40,9 +48,10 @@ const Registration = () => {
             name="repeatPassword"
             onChange={handleChangeFormAuth}
           />
-
-          <button>Connect</button>
         </form>
+        {errorMessage && <div></div>}
+
+        <button onClick={() => handleSubmitForm()}>Connect</button>
       </div>
     </div>
   );
