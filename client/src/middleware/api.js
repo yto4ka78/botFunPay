@@ -4,7 +4,7 @@ const api = axios.create({
   baseURL: "/api",
   withCredentials: true,
   xsrfCookieName: "XSRF-TOKEN",
-  xsrfHeaderName: "X-CSRF-Token",
+  xsrfHeaderName: "X-XSRF-TOKEN",
 });
 
 let refreshing = null;
@@ -15,7 +15,7 @@ api.interceptors.response.use(
     if (response?.status === 401 && !config._retry) {
       config._retry = true;
       refreshing ??= axios
-        .post("/auth/refresh", null, { withCredentials: true })
+        .post("/auth/auth/refresh", null, { withCredentials: true })
         .finally(() => (refreshing = null));
       await refreshing;
       return api(config);

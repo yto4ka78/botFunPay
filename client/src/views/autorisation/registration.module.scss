@@ -25,3 +25,18 @@
     }
   }
 }
+
+.responseDiv {
+  border: 1px solid black;
+  padding: 10px;
+  width: 80%;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.success {
+  background-color: #00800045;
+}
+.error {
+  background-color: #80000045;
+}

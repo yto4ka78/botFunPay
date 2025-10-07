@@ -5,6 +5,7 @@ import Login from "./views/autorisation/Login";
 import Registration from "./views/autorisation/Registration";
 import Layout from "./views/layout/Layout";
 import ProfileNavigator from "./views/profile/ProfileNavigator";
+import ConfirmationEmail from "./views/autorisation/ConfirmationEmail";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/profile" element={<ProfileNavigator />} />
+            <Route path="/verify/:token" element={<ConfirmationEmail />} />
           </Route>
         </Routes>
       </BrowserRouter>

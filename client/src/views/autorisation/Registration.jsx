@@ -8,7 +8,8 @@ const Registration = () => {
     password: "",
     repeatPassword: "",
   });
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [responseMessage, setResponseMessage] = useState(null);
+  const [responseStatus, setResponseStatus] = useState(null);
 
   const handleChangeFormAuth = (e) => {
     const { name, value } = e.target;
@@ -17,7 +18,9 @@ const Registration = () => {
 
   const handleSubmitForm = async () => {
     try {
-      const response = await api("/auth/registration", formAuth);
+      const response = await api.post("/auth/registration", formAuth);
+      setResponseMessage(response.data.message);
+      setResponseStatus(response.data.success);
     } catch {}
   };
 
@@ -49,7 +52,15 @@ const Registration = () => {
             onChange={handleChangeFormAuth}
           />
         </form>
-        {errorMessage && <div></div>}
+        {responseMessage && (
+          <div
+            className={`${styles.responseDiv} ${
+              responseStatus ? styles.success : styles.error
+            }`}
+          >
+            {responseMessage}
+          </div>
+        )}
 
         <button onClick={() => handleSubmitForm()}>Connect</button>
       </div>

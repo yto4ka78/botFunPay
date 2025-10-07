@@ -1,11 +1,10 @@
+import "dotenv/config";
 import app from "./config/appConfig.js";
-import dotenv from "dotenv";
 import db from "./config/db.js";
 import { Api } from "funpay-js-api";
-dotenv.config();
 
 db.connectDB();
-db.syncBD();
+db.syncDB();
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`http://localhost:${port}`));

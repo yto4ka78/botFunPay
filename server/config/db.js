@@ -1,6 +1,6 @@
 import { sequelize, initModels } from "../models/index.js";
 
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
     await sequelize.authenticate();
     console.log("MySQL connected...");
@@ -10,7 +10,7 @@ const connectDB = async () => {
   }
 };
 
-const syncBD = async () => {
+export const syncDB = async () => {
   await initModels();
   console.log("Models:", Object.keys(sequelize.models));
   if (process.env.NODE_ENV === "dev") {
@@ -34,4 +34,4 @@ const syncBD = async () => {
   }
 };
 
-export default { sequelize, connectDB, syncBD };
+export default { sequelize, connectDB, syncDB };

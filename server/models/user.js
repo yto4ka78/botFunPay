@@ -43,6 +43,11 @@ export default (sequelize) => {
       roles: {
         type: DataTypes.JSON,
         allowNull: false,
+        defaultValue: ["user"],
+      },
+      verificationToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
       isVerified: {
         type: DataTypes.STRING,

@@ -1,5 +1,18 @@
 import crypto from "crypto";
+import jwt from "jsonwebtoken";
+//For User
 
+const ACCESS_SECRET = process.env.ACCESS_TOKEN_SECRET;
+const REFRESH_SECRET = process.env.REFRESH_TOKEN_SECRET;
+
+export function signAccess(payload) {
+  return jwt.sign(payload, ACCESS_SECRET, { expiresIn: "15m" });
+}
+export function signRefresh(payload) {
+  return jwt.sign(payload, REFRESH_SECRET, { expiresIn: "7d" });
+}
+
+//For Funpay accounts
 const ALGO = "aes-256-gcm";
 const KEY_HEX = process.env.CRYPTO_SECRET_HEX;
 

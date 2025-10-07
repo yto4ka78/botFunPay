@@ -1,0 +1,11 @@
+@import "../../assets/global.scss";
+.main {
+  @include mainContainer;
+  .formDiv {
+    @include formDiv;
+    p {
+      font-family: "Barlow Condensed";
+      font-size: 24px;
+    }
+  }
+}
