@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./registration.module.scss";
 import api from "../../middleware/api";
+import NotificationDiv from "../../UI/notificationDiv/NotificationDiv";
 
 const Registration = () => {
   const [formAuth, setFormAuth] = useState({
@@ -52,7 +53,11 @@ const Registration = () => {
             onChange={handleChangeFormAuth}
           />
         </form>
-        {responseMessage && (
+        <NotificationDiv
+          responseMessage={responseMessage}
+          responseStatus={responseStatus}
+        />
+        {/* {responseMessage && (
           <div
             className={`${styles.responseDiv} ${
               responseStatus ? styles.success : styles.error
@@ -60,9 +65,9 @@ const Registration = () => {
           >
             {responseMessage}
           </div>
-        )}
+        )} */}
 
-        <button onClick={() => handleSubmitForm()}>Connect</button>
+        <button onClick={() => handleSubmitForm()}>Registration</button>
       </div>
     </div>
   );

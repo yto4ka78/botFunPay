@@ -2,7 +2,14 @@ import { sequelize } from "../models/index.js";
 import { v4 as uuidv4 } from "uuid";
 import { sendVerificationEmail } from "../middleware/mailer.js";
 import bcrypt from "bcrypt";
-import { signAccess, signRefresh } from "../middleware/crypto.js";
+import crypto from "crypto";
+import {
+  signAccess,
+  signRefresh,
+  setAuthCookies,
+  XSRF_COOKIE_NAME,
+  xsrfCookie,
+} from "../middleware/crypto.js";
 
 class authControllers {
   static async registration(req, res) {
@@ -67,7 +74,6 @@ class authControllers {
   static async login(req, res) {
     try {
       const { email, password } = req.body;
-
       const user = await sequelize.models.User.findOne({ where: { email } });
       if (!user) {
         return res
@@ -86,26 +92,60 @@ class authControllers {
           .json({ success: false, message: "Invalid credentials" });
       }
 
-      const payload = { sub: user.id, role: user.role };
+      const payload = { sub: user.id, roles: user.roles };
       const access = signAccess(payload);
       const refresh = signRefresh({ ...payload, jti: crypto.randomUUID() });
 
-      res.cookie("__Host-access", access, accessCookie);
-      res.cookie("__Host-refresh", refresh, refreshCookie);
-
-      res.cookie("XSRF-TOKEN", crypto.randomBytes(32).toString("hex"), {
-        httpOnly: false,
-        secure: isProd,
-        sameSite: "lax",
-        path: "/",
-      });
+      setAuthCookies(res, { access, refresh });
+      res.cookie(
+        XSRF_COOKIE_NAME,
+        crypto.randomBytes(32).toString("hex"),
+        xsrfCookie
+      );
 
       res.json({
         success: true,
-        user: { id: user.id, email: user.email },
       });
     } catch (error) {
-      console.error("Auth controller erro " + error);
+      console.error("Auth controller error: " + error);
+    }
+  }
+
+  static async refreshAccessToken(req, res) {
+    try {
+      const refreshToken = req.cookies["__Host-refresh"];
+      if (!refreshToken) {
+        return res.status(401).json({ message: "No refresh token" });
+      }
+
+      let decoded;
+      try {
+        decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+      } catch (err) {
+        return res
+          .status(401)
+          .json({ message: "Invalid or expired refresh token" });
+      }
+
+      const payload = {
+        sub: decoded.sub,
+        role: decoded.role,
+        roles: decoded.roles,
+      };
+      const newAccessToken = signAccess(payload);
+
+      res.cookie("__Host-access", newAccessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        path: "/",
+        maxAge: 15 * 60 * 1000,
+      });
+
+      return res.json({ success: true });
+    } catch (err) {
+      console.error("Refresh error:", err);
+      return res.status(500).json({ message: "Server error" });
     }
   }
 }

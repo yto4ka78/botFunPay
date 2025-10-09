@@ -5,11 +5,55 @@ import jwt from "jsonwebtoken";
 const ACCESS_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_SECRET = process.env.REFRESH_TOKEN_SECRET;
 
+export const ACCESS_COOKIE_NAME = "__Host-access";
+export const REFRESH_COOKIE_NAME = "__Host-refresh";
+export const XSRF_COOKIE_NAME = "XSRF-TOKEN";
+
+const baseHttpOnly = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "strict",
+  path: "/",
+};
+
+export const accessCookie = {
+  ...baseHttpOnly,
+  maxAge: 15 * 60 * 1000,
+};
+
+export const refreshCookie = {
+  ...baseHttpOnly,
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+};
+
+export const xsrfCookie = {
+  httpOnly: false,
+  secure: true,
+  sameSite: "lax",
+  path: "/",
+};
+
+export function setAuthCookies(res, { access, refresh }) {
+  res.cookie(ACCESS_COOKIE_NAME, access, accessCookie);
+  res.cookie(REFRESH_COOKIE_NAME, refresh, refreshCookie);
+}
+
+export function clearAuthCookies(res) {
+  res.clearCookie(ACCESS_COOKIE_NAME, { path: "/" });
+  res.clearCookie(REFRESH_COOKIE_NAME, { path: "/" });
+  res.clearCookie(XSRF_COOKIE_NAME, { path: "/" });
+}
+
 export function signAccess(payload) {
   return jwt.sign(payload, ACCESS_SECRET, { expiresIn: "15m" });
 }
 export function signRefresh(payload) {
   return jwt.sign(payload, REFRESH_SECRET, { expiresIn: "7d" });
+}
+
+export function verifyToken(token, isRefresh = false) {
+  const secret = isRefresh ? REFRESH_SECRET : ACCESS_SECRET;
+  return jwt.verify(token, secret);
 }
 
 //For Funpay accounts
