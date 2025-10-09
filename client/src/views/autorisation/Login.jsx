@@ -2,10 +2,12 @@ import { useState } from "react";
 import styles from "./login.module.scss";
 import api from "../../middleware/api";
 import NotificationDiv from "../../UI/notificationDiv/NotificationDiv";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [responseMessage, setResponseMessage] = useState(null);
   const [responseStatus, setResponseStatus] = useState(null);
+  const navigate = useNavigate();
 
   const [formAuth, setFormAuth] = useState({
     email: "",
@@ -22,7 +24,7 @@ const Login = () => {
     const response = await api.post("/auth/login", formAuth);
     const data = response.data;
     if (data.success === true) {
-      window.location.replace(`http://${process.env.API_CLIENT}/profile`);
+      navigate("/profile");
       return;
     }
     if (data.success === false) {

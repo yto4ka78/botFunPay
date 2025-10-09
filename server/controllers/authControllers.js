@@ -92,7 +92,7 @@ class authControllers {
           .json({ success: false, message: "Invalid credentials" });
       }
 
-      const payload = { sub: user.id, roles: user.roles };
+      const payload = { sub: user.id, email: user.email, roles: user.roles };
       const access = signAccess(payload);
       const refresh = signRefresh({ ...payload, jti: crypto.randomUUID() });
 
@@ -146,6 +146,32 @@ class authControllers {
     } catch (err) {
       console.error("Refresh error:", err);
       return res.status(500).json({ message: "Server error" });
+    }
+  }
+
+  static async getUser(req, res) {
+    try {
+      const user = await sequelize.models.User.findByPk(req.user.id, {
+        attributes: ["id", "email", "roles"],
+      });
+
+      if (!user) {
+        return res
+          .status(404)
+          .json({ success: false, message: "User not found" });
+      }
+
+      res.json({
+        success: true,
+        user: {
+          id: user.id,
+          email: user.email,
+          roles: user.roles,
+        },
+      });
+    } catch (err) {
+      console.error("Error in /auth/me:", err);
+      res.status(500).json({ success: false, message: "Server error" });
     }
   }
 }

@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import styles from "./navbar.module.scss";
 import logo from "../../assets/images/logo.png";
+import { useAuth } from "../../context/AuthContext";
 
 const NavBar = () => {
+  const { isAuthenticated, user, refreshUser } = useAuth();
+
   return (
     <div className={styles.navbar_main}>
       <div className={styles.navbar_size}>
@@ -13,12 +16,16 @@ const NavBar = () => {
         </Link>
         <div className={styles.buttons}>
           <Link to="">Main</Link>
-          <Link to="">Functions</Link>
         </div>
         <div className={styles.flex}></div>
-        <div className={styles.profile_buttons}>
-          <Link to="/profile">👤 Profile</Link>
-        </div>
+        {isAuthenticated ? (
+          <div className={styles.profile_buttons}>
+            <Link to="/profile">👤 Profile</Link>
+            <button>Logout</button>
+          </div>
+        ) : (
+          <div> </div>
+        )}
       </div>
     </div>
   );
