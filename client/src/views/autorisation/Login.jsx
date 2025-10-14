@@ -24,7 +24,7 @@ const Login = () => {
     const response = await api.post("/auth/login", formAuth);
     const data = response.data;
     if (data.success === true) {
-      navigate("/profile");
+      window.location.href = "/profile";
       return;
     }
     if (data.success === false) {

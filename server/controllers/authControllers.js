@@ -8,7 +8,10 @@ import {
   signRefresh,
   setAuthCookies,
   XSRF_COOKIE_NAME,
+  ACCESS_COOKIE_NAME,
+  REFRESH_COOKIE_NAME,
   xsrfCookie,
+  baseHttpOnly,
 } from "../middleware/crypto.js";
 
 class authControllers {
@@ -94,7 +97,7 @@ class authControllers {
 
       const payload = { sub: user.id, email: user.email, roles: user.roles };
       const access = signAccess(payload);
-      const refresh = signRefresh({ ...payload, jti: crypto.randomUUID() });
+      const refresh = signRefresh(user.id);
 
       setAuthCookies(res, { access, refresh });
       res.cookie(
@@ -108,6 +111,19 @@ class authControllers {
       });
     } catch (error) {
       console.error("Auth controller error: " + error);
+    }
+  }
+
+  static async logout(req, res) {
+    try {
+      res.clearCookie(ACCESS_COOKIE_NAME, baseHttpOnly);
+      res.clearCookie(REFRESH_COOKIE_NAME, baseHttpOnly);
+      res.clearCookie(XSRF_COOKIE_NAME, xsrfCookie);
+
+      return res.status(200).json({ success: true });
+    } catch (e) {
+      console.error("Logout error:", e);
+      return res.status(500).json({ success: false, message: "Server error" });
     }
   }
 
@@ -160,14 +176,10 @@ class authControllers {
           .status(404)
           .json({ success: false, message: "User not found" });
       }
-
+      console.log(user);
       res.json({
         success: true,
-        user: {
-          id: user.id,
-          email: user.email,
-          roles: user.roles,
-        },
+        user: user,
       });
     } catch (err) {
       console.error("Error in /auth/me:", err);

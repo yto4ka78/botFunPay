@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./informationPersonal.module.scss";
+import api from "../../middleware/api";
+import { useAuth } from "../../context/AuthContext";
 
 const InformationPersonal = () => {
   const [form, setForm] = useState({
@@ -9,6 +11,9 @@ const InformationPersonal = () => {
     repeatPassword: "",
   });
 
+  useEffect(() => {
+    const user = useAuth();
+  });
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));

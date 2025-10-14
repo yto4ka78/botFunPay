@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }) => {
       const res = await api.get("/auth/me");
       if (res.data.success) {
         setUser(res.data.user);
-        window.location.reload();
       } else {
         setUser(null);
       }

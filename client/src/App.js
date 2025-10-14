@@ -6,6 +6,7 @@ import Registration from "./views/autorisation/Registration";
 import Layout from "./views/layout/Layout";
 import ProfileNavigator from "./views/profile/ProfileNavigator";
 import ConfirmationEmail from "./views/autorisation/ConfirmationEmail";
+import RequireAuth from "./middleware/requireAuth";
 
 function App() {
   return (
@@ -16,7 +17,9 @@ function App() {
             <Route index element={<Main />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
-            <Route path="/profile" element={<ProfileNavigator />} />
+            <Route element={<RequireAuth />}>
+              <Route path="/profile" element={<ProfileNavigator />} />
+            </Route>
             <Route path="/verify/:token" element={<ConfirmationEmail />} />
           </Route>
         </Routes>

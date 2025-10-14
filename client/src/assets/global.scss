@@ -42,6 +42,8 @@
 }
 
 @mixin navbarLink {
+  background-color: transparent;
+  border: none;
   text-decoration: none;
   color: rgb(34, 34, 34);
   font-family: "Arimo";

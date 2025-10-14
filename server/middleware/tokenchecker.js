@@ -1,7 +1,8 @@
 // middleware/requireAuth.js
 import jwt from "jsonwebtoken";
-
+const isProd = process.env.NODE_ENV === "production";
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
+const ACCESS_COOKIE_NAME = isProd ? "__Host-access" : "access";
 
 export function requireAuth({
   roles = null,
@@ -11,7 +12,7 @@ export function requireAuth({
 } = {}) {
   return function (req, res, next) {
     try {
-      const token = req.cookies?.["__Host-access"];
+      const token = req.cookies?.[ACCESS_COOKIE_NAME];
       if (!token) {
         return res.status(401).json({ message: "No access" });
       }

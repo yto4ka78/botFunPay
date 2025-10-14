@@ -29,10 +29,14 @@
     }
     .profile_buttons {
       display: flex;
-      flex-direction: column;
       justify-content: center;
       a {
         @include navbarLink;
+      }
+      button {
+        @include navbarLink;
+        padding-bottom: 10px;
+        cursor: pointer;
       }
     }
   }
