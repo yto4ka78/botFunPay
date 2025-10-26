@@ -10,6 +10,12 @@ export default (sequelize) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
+      this.hasMany(models.PoolSteamAccount, {
+        as: "poolSteamAccounts",
+        foreignKey: { name: "steamAccountId", allowNull: false },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
     }
     getDecryptedAccessToken() {
       if (!this.access_token) return null;

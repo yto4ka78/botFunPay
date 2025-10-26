@@ -8,6 +8,12 @@ export default (sequelize) => {
         as: "user",
         foreignKey: { name: "userId", allowNull: false },
       });
+      this.hasMany(models.Pool, {
+        as: "pools",
+        foreignKey: { name: "funpayAccountId", allowNull: false },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
     }
     getDecryptedGoldenKey() {
       if (!this.goldenKey) return null;

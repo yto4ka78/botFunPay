@@ -1,23 +1,13 @@
 import styles from "./addPool.module.scss";
 import api from "../../middleware/api";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 const AddPool = () => {
+  const location = useLocation();
   const [steamAccounts, setSteamAccounts] = useState([
     {
       id: "b3f9a2c4-8e2a-4d1f-9c6b-2a1d4f6e7b88",
-      userId: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
       steamLogin: "gamer_one",
-      steamPassword: "v1:BASE64_ENC_PAYLOAD_ABC123",
-      access_token: "v1:BASE64_ENC_TOKEN_ABCxyz==",
-      refresh_token: "v1:BASE64_ENC_REFRESH_DEF456==",
-      provider: "steam",
-      status: "active",
-      email: "gamer_one@example.com",
-      game: "Counter-Strike",
-      steam_refresh_token: null,
-      steam_id: "76561198000000001",
-      createdAt: "2025-10-25T09:12:34.000Z",
-      updatedAt: "2025-10-25T09:12:34.000Z",
     },
     {
       id: "c6d1b3e7-2a11-4a9f-9d55-3c9b8a7f1234",
@@ -69,8 +59,9 @@ const AddPool = () => {
   const [selectedService, setSelectedService] = useState("");
   const [poolAccounts, setPoolAccounts] = useState([]);
   const [poolServices, setPoolServices] = useState([]);
-
+  const [namePool, setNamePool] = useState("");
   //const services = location.state?.services || [];
+  const funpayAccountId = location.state?.funpayAccountId || "";
   useEffect(() => {
     const handleGetSteamAccounts = async () => {
       try {
@@ -116,12 +107,17 @@ const AddPool = () => {
       const response = await api.post(`/funpay/createpool`, {
         poolAccounts: poolAccounts,
         poolServices: poolServices,
+        funpayAccountId: funpayAccountId,
+        namePool: namePool,
       });
       if (response.data.success) {
         setPoolAccounts([]);
         setPoolServices([]);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error creating pool:", error);
+      alert("Failed to create pool. Please try again.");
+    }
   };
 
   return (
@@ -141,7 +137,7 @@ const AddPool = () => {
             <option value="">-- Select account --</option>
             {steamAccounts.map((account) => (
               <option key={account.id} value={account.id}>
-                {account.steamLogin} ({account.email})
+                {account.steamLogin}
               </option>
             ))}
           </select>
@@ -178,6 +174,15 @@ const AddPool = () => {
       <div className={styles.pool_section}>
         <h2>Pool</h2>
 
+        <div className={styles.pool_subsection}>
+          <h3 className={styles.h3}>Name of pool</h3>
+          <input
+            type="text"
+            id="namePool"
+            value={namePool}
+            onChange={(e) => setNamePool(e.target.value)}
+          />
+        </div>
         {/* List of added accounts */}
         <div className={styles.pool_subsection}>
           <h3>Accounts:</h3>
@@ -185,9 +190,7 @@ const AddPool = () => {
             {poolAccounts.length > 0 ? (
               poolAccounts.map((account) => (
                 <div key={account.id} className={styles.pool_item}>
-                  <span>
-                    {account.steamLogin} ({account.email})
-                  </span>
+                  <span>{account.steamLogin}</span>
                   <button
                     onClick={() => handleRemoveAccount(account.id)}
                     className={styles.remove_button}

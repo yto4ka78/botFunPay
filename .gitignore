@@ -6,3 +6,4 @@ client/build
 server/.env
 server/node_modules
 server/outh2.json
+server/migrations

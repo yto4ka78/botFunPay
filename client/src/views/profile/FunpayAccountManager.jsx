@@ -32,7 +32,7 @@ const FunpayAccountManager = () => {
       <div>
         <Link
           to={`/addpool`}
-          state={{ services: services }}
+          state={{ services: services, funpayAccountId: id }}
           className={styles.add_pool_button}
         >
           Add pool

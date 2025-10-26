@@ -14,6 +14,12 @@ export default (sequelize) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
+      this.hasMany(models.Pool, {
+        as: "pools",
+        foreignKey: { name: "userId", allowNull: false },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
     }
   }
 

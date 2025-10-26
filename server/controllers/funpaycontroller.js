@@ -1,5 +1,6 @@
 import { sequelize } from "../models/index.js";
 import { bot } from "../middleware/axios.js";
+import additionalControllerSoftware from "../middleware/additionalControllerSoftware.js";
 class funpaycontroller {
   static async addaccount(req, res) {
     try {
@@ -80,9 +81,42 @@ class funpaycontroller {
 
   static async createPool(req, res) {
     try {
-      const { poolAccounts, poolServices } = req.body;
+      const { poolAccounts, poolServices, funpayAccountId, namePool } =
+        req.body;
+      const check =
+        await additionalControllerSoftware.checkServiceAndAccountInUse(
+          poolAccounts,
+          poolServices
+        );
+      if (!check.success) {
+        return res.status(400).json(check);
+      }
+      const pool = await sequelize.models.Pool.create({
+        userId: req.user.id,
+        funpayAccountId: funpayAccountId,
+        name: namePool,
+        status: "inactive",
+      });
+      for (const account of poolAccounts) {
+        await sequelize.models.PoolSteamAccount.create({
+          poolId: pool.id,
+          steamAccountId: account.id,
+          inUse: false,
+        });
+      }
+      for (const service of poolServices) {
+        await sequelize.models.Service.create({
+          poolId: pool.id,
+          idInFunpay: service.id,
+          name: service.name,
+          price: service.price,
+          isActive: true,
+        });
+      }
+      return res.status(200).json({ success: true, message: "Pool created" });
     } catch (error) {
       console.error("Error in createPool " + error);
+      return res.status(400).json({ success: false, message: "Error server" });
     }
   }
 }
