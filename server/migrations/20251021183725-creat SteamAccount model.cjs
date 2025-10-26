@@ -3,31 +3,43 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("users", {
+    return queryInterface.createTable("steam_accounts", {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
-        allowNull: false,
         primaryKey: true,
       },
-      email: {
+      user_id: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      steam_login: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
-      username: {
+      steam_password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      access_token: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      refresh_token: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      provider: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      roles: {
-        type: Sequelize.JSON,
-        allowNull: false,
-      },
-      is_verified: {
+      status: {
         type: Sequelize.STRING,
         allowNull: true,
       },
@@ -45,6 +57,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("users");
+    return queryInterface.dropTable("steam_accounts");
   },
 };

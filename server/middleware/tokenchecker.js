@@ -14,7 +14,7 @@ export function requireAuth({
     try {
       const token = req.cookies?.[ACCESS_COOKIE_NAME];
       if (!token) {
-        return res.status(401).json({ message: "No access" });
+        return res.status(401).json({ message: "No access 1" });
       }
 
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -28,7 +28,7 @@ export function requireAuth({
 
         const allowed = userRoles.some((r) => roles.includes(r));
         if (!allowed) {
-          return res.status(401).json({ message: "No access" });
+          return res.status(401).json({ message: "No access 2" });
         }
       }
 
@@ -36,7 +36,7 @@ export function requireAuth({
         const xsrfHeader = String(req.headers[xsrfHeaderName] || "");
         const xsrfCookie = String(req.cookies?.[xsrfCookieName] || "");
         if (!xsrfHeader || !xsrfCookie || xsrfHeader !== xsrfCookie) {
-          return res.status(401).json({ message: "No access" });
+          return res.status(401).json({ message: "No access 3" });
         }
       }
 

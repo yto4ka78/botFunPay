@@ -61,6 +61,7 @@ export function verifyToken(token, isRefresh = false) {
 }
 
 //For Funpay accounts
+
 const ALGO = "aes-256-gcm";
 const KEY_HEX = process.env.CRYPTO_SECRET_HEX;
 
@@ -70,7 +71,6 @@ if (!KEY_HEX || KEY_HEX.length !== 64) {
   );
 }
 const KEY = Buffer.from(KEY_HEX, "hex");
-
 export function encryptGCM(plainText) {
   const iv = crypto.randomBytes(12);
   const cipher = crypto.createCipheriv(ALGO, KEY, iv);

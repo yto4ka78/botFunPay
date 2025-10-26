@@ -1,42 +1,132 @@
 @import "../../assets/global.scss";
 .navbar_main {
-  padding: 10px;
+  padding: 15px 20px;
   width: 100%;
-  background-color: rgb(170, 170, 170);
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+
   .navbar_size {
     margin: auto;
-    width: 1280px;
+    max-width: 1280px;
+    width: 100%;
     display: flex;
+    align-items: center;
+    gap: 20px;
+
     .logo {
       width: 100px;
       height: 50px;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
       img {
         width: 100%;
-        border-radius: 10px;
+        border-radius: 12px;
         height: 100%;
         object-fit: cover;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        transition: box-shadow 0.3s ease;
+
+        &:hover {
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
       }
     }
+
     .buttons {
       display: flex;
       align-items: center;
+      gap: 10px;
+
       a {
-        @include navbarLink;
+        padding: 10px 20px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        text-decoration: none;
+        color: #ffffff;
+        font-family: "Arimo";
+        font-size: 18px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.25);
+          border-color: rgba(255, 255, 255, 0.4);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
       }
     }
+
     .flex {
       flex: 1;
     }
+
     .profile_buttons {
       display: flex;
-      justify-content: center;
+      align-items: center;
+      gap: 15px;
+
       a {
-        @include navbarLink;
+        padding: 10px 20px;
+        background-color: rgba(255, 255, 255, 0.95);
+        border: none;
+        border-radius: 12px;
+        text-decoration: none;
+        color: #2d3748;
+        font-family: "Arimo";
+        font-size: 18px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+          background-color: #ffffff;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          color: #1a202c;
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
       }
+
       button {
-        @include navbarLink;
-        padding-bottom: 10px;
+        padding: 10px 25px;
+        background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+        border: none;
+        border-radius: 12px;
+        color: #ffffff;
+        font-family: "Arimo";
+        font-size: 18px;
+        font-weight: 600;
         cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(74, 85, 104, 0.4);
+          filter: brightness(1.15);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
       }
     }
   }

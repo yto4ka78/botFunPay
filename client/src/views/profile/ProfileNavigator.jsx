@@ -3,6 +3,7 @@ import { useState } from "react";
 import styles from "./profileNavigator.module.scss";
 import InformationPersonal from "./InformationPersonal";
 import FunpayControl from "./FunpayControl";
+import SteamAccountsManager from "./SteamAccountsManager";
 
 const ProfileNavigator = () => {
   const [activeProfileView, setActiveProfileView] = useState(
@@ -14,6 +15,8 @@ const ProfileNavigator = () => {
         return <InformationPersonal />;
       case "FunpayControl":
         return <FunpayControl />;
+      case "SteamAccountsManager":
+        return <SteamAccountsManager />;
       default:
         return <InformationPersonal />;
     }
@@ -36,7 +39,13 @@ const ProfileNavigator = () => {
         >
           Funpay control
         </button>
-        <button>Steam accounts</button>
+        <button
+          onClick={() => {
+            setActiveProfileView("SteamAccountsManager");
+          }}
+        >
+          Steam accounts
+        </button>
       </div>
       <div className={styles.profile_view}>{RenderViewProfile()}</div>
     </div>

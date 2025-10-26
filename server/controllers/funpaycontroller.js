@@ -1,4 +1,5 @@
 import { sequelize } from "../models/index.js";
+import { bot } from "../middleware/axios.js";
 class funpaycontroller {
   static async addaccount(req, res) {
     try {
@@ -18,7 +19,7 @@ class funpaycontroller {
         attributes: ["id", "email", "roles"],
       });
       if (!user) {
-        console.log("User in addaccount not found");
+        console.error("User in addaccount not found");
         return res.status(400);
       }
       const funpayaccount = await sequelize.models.FunpayAccount.create({
@@ -26,10 +27,62 @@ class funpaycontroller {
         funpayEmail: funpayEmail,
         goldenKey: goldenKey,
       });
+      const response = await bot.post(`/funpay/creatAcc${goldenKey}`);
       return res.status(200).json({ success: true, message: "Account added" });
     } catch (error) {
       console.error("Error in addaccount " + error);
       return res.status(400).json({ success: false, message: "Error server" });
+    }
+  }
+
+  static async getOffers(req, res) {
+    try {
+      const { id } = req.params;
+      const account = await sequelize.models.FunpayAccount.findOne({
+        where: {
+          id: id,
+        },
+      });
+      if (!account) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Account not found" });
+      }
+      if (account.userId !== req.user.id) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Not you account" });
+      }
+      const goldenKey = account.getDecryptedGoldenKey();
+      const { data } = await bot.get(`/funpay/getOffers/${goldenKey}`);
+      const payload = Array.isArray(data?.services)
+        ? data.services
+        : data?.services
+        ? [data.services]
+        : Array.isArray(data)
+        ? data
+        : [data];
+
+      if (payload.length === 0) {
+        return res
+          .status(400)
+          .json({ success: false, message: "You don't have services" });
+      }
+
+      return res.status(200).json({ success: true, services: payload });
+    } catch (error) {
+      console.error("Get user controller error " + error);
+      return res
+        .status(500)
+        .json({ success: false, message: "Internal error" });
+    }
+  }
+
+  static async createPool(req, res) {
+    try {
+      const { poolAccounts, poolServices } = req.body;
+    } catch (error) {
+      console.error("Error in createPool " + error);
     }
   }
 }

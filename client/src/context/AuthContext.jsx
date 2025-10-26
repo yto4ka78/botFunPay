@@ -9,17 +9,21 @@ const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [fpaccounts, setFpaccounts] = useState(null);
 
   const fetchUser = async () => {
     try {
       const res = await api.get("/auth/me");
       if (res.data.success) {
         setUser(res.data.user);
+        setFpaccounts(res.data.fpaccounts);
       } else {
         setUser(null);
+        setFpaccounts(null);
       }
     } catch (err) {
       setUser(null);
+      setFpaccounts(null);
     }
   };
 
@@ -31,6 +35,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        fpaccounts,
         isAuthenticated: !!user,
         refreshUser: fetchUser,
       }}

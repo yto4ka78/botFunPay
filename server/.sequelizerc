@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  config: path.resolve(__dirname, "models/index.js"),
+  config: path.resolve(__dirname, "config", "config.json"),
   "models-path": path.resolve(__dirname, "models"),
   "migrations-path": path.resolve(__dirname, "migrations"),
 };

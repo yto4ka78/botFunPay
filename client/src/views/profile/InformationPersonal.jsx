@@ -4,6 +4,7 @@ import api from "../../middleware/api";
 import { useAuth } from "../../context/AuthContext";
 
 const InformationPersonal = () => {
+  const { user } = useAuth();
   const [form, setForm] = useState({
     email: "",
     name: "",
@@ -11,9 +12,7 @@ const InformationPersonal = () => {
     repeatPassword: "",
   });
 
-  useEffect(() => {
-    const user = useAuth();
-  });
+  useEffect(() => {});
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -21,7 +20,6 @@ const InformationPersonal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form data:", form);
   };
 
   return (
@@ -31,11 +29,11 @@ const InformationPersonal = () => {
       <div className={styles.info_user}>
         <div>
           <p className={styles.label}>Name:</p>
-          <p className={styles.value}>yto4ka78</p>
+          <p className={styles.value}>{user?.username || "No name"}</p>
         </div>
         <div>
           <p className={styles.label}>Email:</p>
-          <p className={styles.value}>erik.sitnikov.fr@mail.com</p>
+          <p className={styles.value}>{user?.email || "No email"}</p>
         </div>
       </div>
 

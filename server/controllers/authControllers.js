@@ -168,7 +168,7 @@ class authControllers {
   static async getUser(req, res) {
     try {
       const user = await sequelize.models.User.findByPk(req.user.id, {
-        attributes: ["id", "email", "roles"],
+        attributes: ["id", "email", "roles", "username"],
       });
 
       if (!user) {
@@ -176,10 +176,16 @@ class authControllers {
           .status(404)
           .json({ success: false, message: "User not found" });
       }
-      console.log(user);
+      const fpaccounts = await sequelize.models.FunpayAccount.findAll({
+        where: { userId: user.id },
+        attributes: ["id", "funpayName"],
+        raw: true,
+      });
+
       res.json({
         success: true,
-        user: user,
+        user: { userid: user.id, email: user.email, username: user.username },
+        fpaccounts: fpaccounts,
       });
     } catch (err) {
       console.error("Error in /auth/me:", err);

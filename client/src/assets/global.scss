@@ -1,3 +1,4 @@
+@import "./fonts.scss";
 @mixin mainContainer {
   display: flex;
   align-items: center;
@@ -21,6 +22,26 @@
   transition: 0.3s ease-in-out;
   &:hover {
     background-color: rgb(233, 233, 233);
+  }
+}
+
+@mixin formBasic {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 18px;
+    font-family: "Barlow Condensed";
+    margin-bottom: 5px;
+  }
+  input {
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid black;
+  }
+  button {
+    @include addButton;
   }
 }
 
@@ -54,5 +75,42 @@
   transition: 0.5s ease-in-out;
   &:hover {
     background-color: rgba(0, 0, 0, 0.267);
+  }
+}
+
+@mixin addAccountButton {
+  font-family: "Alan Sans";
+  font-weight: 300;
+  color: black;
+  text-decoration: none;
+  font-size: 16px;
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+  margin-bottom: 10px;
+  width: max-content;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
+@mixin addButton {
+  background-color: rgb(71, 71, 71);
+  width: max-content;
+  border: 1px solid rgb(71, 71, 71);
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    background-color: white;
+    color: rgb(71, 71, 71);
+    border: 1px solid rgb(71, 71, 71);
   }
 }

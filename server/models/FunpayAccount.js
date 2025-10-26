@@ -35,6 +35,11 @@ export default (sequelize) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
+      games: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: [],
+      },
     },
     {
       sequelize,

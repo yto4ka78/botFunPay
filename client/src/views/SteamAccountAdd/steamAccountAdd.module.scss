@@ -1,0 +1,125 @@
+@import "../../assets/global.scss";
+@import "../../assets/fonts.scss";
+
+.main {
+  @include mainContainer;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 1280px;
+  h1 {
+    font-weight: 300;
+    font-family: "Alan Sans";
+    margin: 10px 0px;
+  }
+  .formDiv {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    .step {
+      font-size: 24px;
+      font-family: "Barlow Condensed";
+      margin-bottom: 10px;
+    }
+    h3 {
+      font-weight: 300;
+      font-family: "Alan Sans";
+      margin-bottom: 10px;
+    }
+    form {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      .notificationMessage {
+        background-color: #80000018;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        font-family: "Barlow Condensed";
+        font-size: 18px;
+        font-weight: 300;
+      }
+      label {
+        font-size: 18px;
+        font-family: "Barlow Condensed";
+        margin-bottom: 5px;
+      }
+      input {
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid black;
+      }
+      .info {
+        font-family: "Barlow Condensed";
+        margin-bottom: 10px;
+        text-decoration: underline;
+        font-size: 20px;
+      }
+      .game_input_container {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+        margin-bottom: 10px;
+        .game_input_flex {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          input {
+            margin-bottom: 0;
+          }
+        }
+        button {
+          margin-bottom: 0;
+          padding: 10px 20px;
+          white-space: nowrap;
+        }
+      }
+      .games_container {
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        min-height: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        .empty_message {
+          margin: 0;
+          padding: 10px;
+          text-align: center;
+          font-family: "Barlow Condensed";
+          font-size: 16px;
+          color: #666;
+          font-style: italic;
+        }
+        > div {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 5px 10px;
+          background-color: #f0f0f0;
+          border-radius: 5px;
+          p {
+            margin: 0;
+            font-family: "Barlow Condensed";
+            font-size: 16px;
+          }
+          button {
+            padding: 5px 10px;
+            font-size: 14px;
+          }
+        }
+      }
+      .buttonRow {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      button {
+        @include addButton;
+      }
+    }
+  }
+}

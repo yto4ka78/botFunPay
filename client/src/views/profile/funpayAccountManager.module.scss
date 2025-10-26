@@ -1,0 +1,57 @@
+@import "../../assets/global.scss";
+@import "../../assets/fonts.scss";
+.main {
+  @include mainContainer;
+  flex-direction: column;
+  width: 1280px;
+  align-items: flex-start;
+  h1 {
+    margin: 10px 0px;
+    font-weight: 300;
+    font-family: "Alan Sans";
+  }
+  .add_pool_button {
+    @include addButton;
+  }
+  .hidden_services {
+    font-family: "Alan Sans";
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 10px;
+  }
+  .services_container {
+    display: flex;
+    h3 {
+      margin: 10px 0px;
+      font-weight: 300;
+      font-family: "Alan Sans";
+      margin-bottom: 10px;
+    }
+    button {
+      @include addAccountButton;
+    }
+  }
+  .table_wrap {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      th {
+        text-align: left;
+        font-weight: 600;
+        padding: 14px 16px;
+        background: #f3f4f6;
+        border-bottom: 1px solid var(--border);
+      }
+      td {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+    }
+  }
+}

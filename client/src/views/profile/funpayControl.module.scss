@@ -3,9 +3,16 @@
 
 .main {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
   h1 {
     font-weight: 300;
     font-family: "Alan Sans";
+  }
+  .add_account_button {
+    @include addAccountButton;
   }
   .accounts_container {
     border: 1px solid black;
@@ -18,20 +25,30 @@
       font-family: "Barlow Condensed";
       margin-bottom: 5px;
     }
-    .accounts_name {
+    .accounts {
       display: flex;
       border-bottom: 1px solid black;
       padding-bottom: 5px;
-      .value {
+      .name {
         font-family: "Barlow Condensed";
-
         font-size: 22px;
       }
-      button {
+      button,
+      a {
+        text-decoration: none;
+        color: black;
+        font-family: "Barlow Condensed";
         background-color: transparent;
         border: none;
         font-size: 18px;
         cursor: pointer;
+        transition: 0.3s ease;
+        border-radius: 10px;
+        margin-right: 10px;
+        padding: 5px;
+        &:hover {
+          transform: scale(1.1);
+        }
       }
     }
   }
@@ -44,17 +61,70 @@
       font-weight: 300;
       margin-bottom: 10px;
     }
-    button {
-      font-size: 16px;
-      background-color: transparent;
-      border: 1px solid black;
-      border-radius: 10px;
-      padding: 10px;
-      transition: 0.3s ease-in-out;
-      cursor: pointer;
-      &:hover {
-        background-color: black;
-        color: white;
+  }
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      1200px 600px at 50% -10%,
+      rgba(143, 28, 164, 0.15),
+      transparent 60%
+    ),
+    rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 24px;
+  animation: overlayFade 200ms ease-out;
+  .modal_howaddacc {
+    background-color: rgb(228, 228, 228);
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 15px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    .flex_button {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      h3 {
+        font-family: "Barlow Condensed";
+      }
+      button {
+        border: none;
+        background-color: transparent;
+        font-size: 20px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        border-radius: 10px;
+        &:hover {
+          background-color: rgb(114, 114, 114);
+        }
+      }
+    }
+    .info {
+      p,
+      li {
+        font-family: "Arimo";
+      }
+      ol {
+        padding-left: 15px;
+      }
+      li {
+        margin-bottom: 5px;
+      }
+      h4 {
+        font-family: "Alan Sans";
       }
     }
   }

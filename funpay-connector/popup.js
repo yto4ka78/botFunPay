@@ -34,7 +34,7 @@ $("#connect").addEventListener("click", async () => {
     }
 
     // 2) Прочитаем localStorage в контексте funpay (если нужно)
-    const funpayEmail = await getLocalStorageFromFunpay("_ym36956765_il"); // это не e-mail, см. примечание ниже
+    const funpayName = await getLocalStorageFromFunpay("_ym36956765_il"); // это не e-mail, см. примечание ниже
 
     // 3) Найдём/откроем вкладку сайта и отправим запрос ИЗ НЕЁ
     const siteTab = await ensureSiteTab(); // <-- теперь возвращает вкладку
@@ -42,7 +42,7 @@ $("#connect").addEventListener("click", async () => {
 
     const result = await postFromSiteTab(siteTab.id, SITE_REL_ENDPOINT, {
       goldenKey,
-      funpayEmail, // можно удалить, если не нужен
+      funpayName,
     });
 
     if (!result.ok) {

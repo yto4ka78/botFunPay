@@ -15,7 +15,7 @@ export const syncDB = async () => {
   console.log("Models:", Object.keys(sequelize.models));
   if (process.env.NODE_ENV === "dev") {
     sequelize
-      .sync({ force: true })
+      .sync({ alter: true })
       .then(() => {
         console.log("All models were synchronized successfully and forced.");
       })
