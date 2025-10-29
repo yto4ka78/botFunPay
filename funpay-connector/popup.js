@@ -1,90 +1,69 @@
 const $ = (s) => document.querySelector(s);
-
-// ВЫБЕРИ правильный origin, который реально держит твои куки авторизации:
 const SITE_MATCH = /^(https?:\/\/(localhost:5000|your-domain\.tld))\//i;
-const SITE_START_URL = "http://localhost:5000/"; // откроем этот URL, если вкладки нет
-const SITE_REL_ENDPOINT = "/api/funpay/addaccount"; // запрос пойдёт из вкладки сайта
+const SITE_START_URL = "http://localhost:5000";
+const SITE_REL_ENDPOINT = "/api/funpay/addaccount";
 
 const FUNPAY_ORIGIN = "https://funpay.com/";
-
-$("#connect").addEventListener("click", async () => {
-  $("#log").textContent = "Reading cookies…";
+const connectButton = document.getElementById("connect");
+const logContainer = document.getElementById("log");
+const funpayNameInput = document.getElementById("funpayName");
+connectButton.addEventListener("click", async () => {
+  logContainer.textContent = "Reading cookies…";
   try {
-    // 1) Проверим, что открыта вкладка funpay и возьмём golden_key
     const [activeTab] = await chrome.tabs.query({
       active: true,
       currentWindow: true,
     });
-    if (
-      !activeTab ||
-      !/^https?:\/\/([^/]+\.)?funpay\.com/i.test(activeTab.url || "")
-    ) {
-      throw new Error("Открой вкладку с https://funpay.com/ и попробуй снова.");
+    if (!activeTab.url.includes("funpay.com")) {
+      logContainer.textContent = "Open FunPay website and try again";
+      return;
     }
-
     const goldenCookie = await chrome.cookies.get({
       url: FUNPAY_ORIGIN,
       name: "golden_key",
     });
     const goldenKey = goldenCookie?.value;
     if (!goldenKey) {
-      $("#log").textContent =
-        "golden_key не найден. Войдите в https://funpay.com/ и попробуйте снова.";
+      logContainer.textContent = "Login to FunPay and try again.";
       return;
     }
 
-    // 2) Прочитаем localStorage в контексте funpay (если нужно)
-    const funpayName = await getLocalStorageFromFunpay("_ym36956765_il"); // это не e-mail, см. примечание ниже
-
-    // 3) Найдём/откроем вкладку сайта и отправим запрос ИЗ НЕЁ
-    const siteTab = await ensureSiteTab(); // <-- теперь возвращает вкладку
-    $("#log").textContent = "Sending to backend…";
-
-    const result = await postFromSiteTab(siteTab.id, SITE_REL_ENDPOINT, {
-      goldenKey,
-      funpayName,
-    });
-
-    if (!result.ok) {
-      // HTTP-ошибка: возьми код и message из тела
-      if (result.message === "No access") {
-        $("#log").textContent = "Join to tou account in bfp.com";
-      } else {
-        $("#log").textContent = ` ${result.message || "Unknown error :("}`;
-      }
+    const funpayName = funpayNameInput.value;
+    if (!funpayName) {
+      logContainer.textContent = "Please enter your FunPay name";
       return;
     }
-
-    $("#log").textContent = `Done ✅! \n${result.message}`;
+    const siteTab = await ensureSiteTab();
+    logContainer.textContent = "Sending to backend…";
+    console.log(siteTab, funpayName, goldenKey);
+    const result = await sendToBackend(siteTab, funpayName, goldenKey);
+    if (!result.success) {
+      logContainer.textContent = result.message;
+      return;
+    }
+    logContainer.textContent = `Done ✅! \n${result.message}`;
   } catch (e) {
-    $("#log").textContent = "Error: " + (e?.message || e);
+    logContainer.textContent = "Error: " + (e?.message || e);
   }
 });
-
-async function getLocalStorageFromFunpay(key) {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (!tab || !/^https?:\/\/([^/]+\.)?funpay\.com/i.test(tab.url || "")) {
-    throw new Error("Открой вкладку с https://funpay.com/ и попробуй снова.");
-  }
-  const [{ result }] = await chrome.scripting.executeScript({
-    target: { tabId: tab.id, allFrames: true },
-    world: "MAIN",
-    func: (k) => {
-      try {
-        return localStorage.getItem(k);
-      } catch {
-        return null;
-      }
-    },
-    args: [key],
-  });
-  return result ?? null;
-}
 
 async function ensureSiteTab() {
   const tabs = await chrome.tabs.query({ currentWindow: true });
   let tab = tabs.find((t) => SITE_MATCH.test(t.url || ""));
   if (!tab) {
+    tab = await chrome.tabs.create({ url: SITE_START_URL, active: true });
+  }
+  await waitForComplete(tab.id);
+  return tab;
+}
+
+async function openBFP() {
+  let tab;
+  const [activeTab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+  });
+  if (!activeTab.url.includes(SITE_START_URL)) {
     tab = await chrome.tabs.create({ url: SITE_START_URL, active: true });
   }
   await waitForComplete(tab.id);
@@ -105,71 +84,29 @@ function waitForComplete(tabId) {
     });
   });
 }
-
-// ВАЖНО: fetch выполняем ВНУТРИ вкладки сайта — куки приклеятся автоматически
-async function postFromSiteTab(tabId, relPath, payload) {
-  const [{ result }] = await chrome.scripting.executeScript({
-    target: { tabId },
-    world: "MAIN",
-    func: async (rel, body, xsrfCookieName, xsrfHeaderName, warmupUrl) => {
-      // вспомогалка для чтения cookie по имени
-      const getCookie = (name) => {
-        const m = document.cookie.match(
-          new RegExp(
-            `(?:^|; )${name.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}=([^;]*)`
-          )
-        );
-        return m ? decodeURIComponent(m[1]) : null;
-      };
-
-      // 1) убедимся, что XSRF-кука есть (если нет — дернем "прогрев" GET)
-      let xsrf = getCookie(xsrfCookieName);
-      if (!xsrf && warmupUrl) {
-        try {
-          await fetch(warmupUrl, { credentials: "include" }); // сервер на этом GET должен поставить XSRF-TOKEN
-          xsrf = getCookie(xsrfCookieName);
-        } catch {}
-      }
-
-      const headers = { "Content-Type": "application/json" };
-      if (xsrf) headers[xsrfHeaderName] = xsrf; // <— критично для прохождения requireAuth
-
+async function sendToBackend(siteTab, funpayName, goldenKey) {
+  const results = await chrome.scripting.executeScript({
+    target: { tabId: siteTab.id },
+    func: async (endpoint, data) => {
       try {
-        const res = await fetch(rel, {
+        const response = await fetch(endpoint, {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           credentials: "include",
-          headers,
-          body: JSON.stringify(body),
+          body: JSON.stringify(data),
         });
-        const { status, ok } = res;
 
-        // если 204 — тела нет
-        if (status === 204) {
-          return { ok, status, message: null, data: null };
-        }
-
-        // пробуем достать JSON или текст
-        const ct = res.headers.get("content-type") || "";
-        const data = ct.includes("application/json")
-          ? await res.json().catch(() => ({}))
-          : await res.text();
-
-        // единообразно возвращаем результат
-        const message = typeof data === "string" ? data : data?.message;
-
-        return { ok, status, message, data };
-      } catch (e) {
-        return { ok: false, error: String(e) };
+        return await response.json();
+      } catch (error) {
+        return {
+          success: false,
+          message: `Request failed: ${error.message}`,
+        };
       }
     },
-    // имена должны совпасть с мидлварью
-    args: [
-      "/api/funpay/addaccount",
-      payload,
-      "XSRF-TOKEN",
-      "x-xsrf-token",
-      "/auth/csrf-warmup",
-    ],
+    args: [SITE_START_URL + SITE_REL_ENDPOINT, { funpayName, goldenKey }],
   });
-  return result;
+  return results[0].result;
 }

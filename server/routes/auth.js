@@ -8,6 +8,9 @@ router.get("/verify/:token", authControllers.confirmationEmail);
 router.post("/login", authControllers.login);
 router.get("/refresh", authControllers.refreshAccessToken);
 router.get("/me", requireAuth(), authControllers.getUser);
-router.post("/logout", requireAuth(), authControllers.logout);
+router.post("/logout", authControllers.logout);
+router.get("/csrf-warmup", (req, res) => {
+  res.status(200).json({ success: true });
+});
 
 export default router;

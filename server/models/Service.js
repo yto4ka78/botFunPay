@@ -5,7 +5,13 @@ export default (sequelize) => {
     static associate(models) {
       this.belongsTo(models.Pool, {
         as: "pool",
-        foreignKey: { name: "poolId", allowNull: false },
+        foreignKey: { name: "poolId", allowNull: true },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
+      this.belongsTo(models.FunpayAccount, {
+        as: "funpayAccount",
+        foreignKey: { name: "funpayAccountId", allowNull: true },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
@@ -20,7 +26,11 @@ export default (sequelize) => {
       },
       poolId: {
         type: DataTypes.UUID,
-        allowNull: false,
+        allowNull: true,
+      },
+      funpayAccountId: {
+        type: DataTypes.UUID,
+        allowNull: true,
       },
       idInFunpay: {
         type: DataTypes.STRING,
@@ -30,9 +40,17 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      rentalTime: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
       price: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
+        get() {
+          const value = this.getDataValue("price");
+          return value ? parseFloat(value) : 0;
+        },
       },
       isActive: {
         type: DataTypes.BOOLEAN,

@@ -5,7 +5,6 @@
   margin: auto;
   min-width: 500px;
   width: max-content;
-  height: 100vh;
 }
 @mixin formDiv {
   box-shadow: inset 0px 0px 10px rgb(0, 0, 0);
@@ -79,22 +78,29 @@
 }
 
 @mixin addAccountButton {
-  font-family: "Alan Sans";
-  font-weight: 300;
-  color: black;
+  font-family: "Barlow Condensed";
+  font-weight: 600;
+  color: #ffffff;
   text-decoration: none;
   font-size: 16px;
-  background-color: transparent;
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 10px;
-  transition: 0.3s ease-in-out;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  transition: all 0.3s ease;
   cursor: pointer;
-  margin-bottom: 10px;
   width: max-content;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+
   &:hover {
-    background-color: black;
-    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 

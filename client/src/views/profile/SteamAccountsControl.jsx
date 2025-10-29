@@ -1,21 +1,8 @@
 import { useState } from "react";
-import styles from "./steamAccountsManager.module.scss";
+import styles from "./steamAccountsControl.module.scss";
 import { Link } from "react-router-dom";
-const SteamAccountsManager = () => {
-  const [steamAccs, setSteamAccs] = useState([
-    {
-      id: "24424",
-      login: "quko4",
-      email: "quko4@gmail.com",
-      game: "peak",
-    },
-    {
-      id: "24424",
-      login: "quko5",
-      email: "quko5@gmail.com",
-      game: "peak",
-    },
-  ]);
+const SteamAccountsControl = () => {
+  const [steamAccs, setSteamAccs] = useState([]);
 
   const handleDelete = (id) => {};
   return (
@@ -31,7 +18,6 @@ const SteamAccountsManager = () => {
                 <tr>
                   <th>Login</th>
                   <th>Email</th>
-                  <th>Game</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -40,7 +26,6 @@ const SteamAccountsManager = () => {
                   <tr key={steamAcc.id}>
                     <td>{steamAcc.login}</td>
                     <td>{steamAcc.email}</td>
-                    <td>{steamAcc.game}</td>
                     <td>
                       <Link
                         to={`/accountsteam/${steamAcc.id}`}
@@ -65,4 +50,4 @@ const SteamAccountsManager = () => {
   );
 };
 
-export default SteamAccountsManager;
+export default SteamAccountsControl;

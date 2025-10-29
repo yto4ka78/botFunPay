@@ -1,37 +1,303 @@
 @import "../../assets/global.scss";
+@import "../../assets/fonts.scss";
+
 .mainDiv {
   display: flex;
   align-items: center;
-  margin: auto;
-  width: 500px;
-  height: 100vh;
-  .formDiv {
-    box-shadow: inset 0px 0px 10px rgb(0, 0, 0);
-    margin-bottom: 150px;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px 0px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+
+  .container {
+    max-width: 1200px;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    height: max-content;
-    width: 100%;
-    background-color: white;
-    border-radius: 10px;
-    border: 2px solid rgb(146, 146, 146);
-    padding: 20px;
-    align-items: center;
-    transition: 0.3s ease-in-out;
-    &:hover {
-      background-color: rgb(233, 233, 233);
+    gap: 40px;
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+      .title {
+        font-family: "Alan Sans";
+        font-size: 56px;
+        font-weight: 700;
+        margin: 0 0 20px 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        font-family: "Barlow Condensed";
+        font-size: 28px;
+        font-weight: 600;
+        color: #374151;
+        margin: 0 0 15px 0;
+      }
+
+      .description {
+        font-family: "Arimo";
+        font-size: 18px;
+        color: #6b7280;
+        margin: 0;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
     }
-    h1 {
-      font-family: "Alan Sans";
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+
+      .featureCard {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 35px 25px;
+        text-align: center;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2);
+          border-color: #667eea;
+        }
+
+        .icon {
+          font-size: 48px;
+          margin-bottom: 20px;
+          filter: grayscale(0.3);
+          transition: all 0.3s ease;
+        }
+
+        &:hover .icon {
+          filter: grayscale(0);
+          transform: scale(1.1);
+        }
+
+        h3 {
+          font-family: "Alan Sans";
+          font-size: 24px;
+          font-weight: 600;
+          color: #1f2937;
+          margin: 0 0 15px 0;
+        }
+
+        p {
+          font-family: "Arimo";
+          font-size: 16px;
+          color: #6b7280;
+          margin: 0;
+          line-height: 1.5;
+        }
+      }
     }
-    h2 {
-      font-weight: 300;
-      margin: 10px 0px;
+
+    .ctaSection {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 50px 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      text-align: center;
+
+      .authButtons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+
+        .welcomeText {
+          font-family: "Alan Sans";
+          font-size: 24px;
+          color: #374151;
+          margin: 0 0 10px 0;
+
+          span {
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+        }
+
+        .primaryButton {
+          display: inline-block;
+          padding: 16px 48px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: #ffffff;
+          text-decoration: none;
+          border-radius: 12px;
+          font-family: "Barlow Condensed";
+          font-size: 20px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+
+          &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+          }
+
+          &:active {
+            transform: translateY(-1px);
+          }
+        }
+
+        .secondaryButton {
+          display: inline-block;
+          padding: 16px 48px;
+          background: transparent;
+          color: #667eea;
+          text-decoration: none;
+          border-radius: 12px;
+          font-family: "Barlow Condensed";
+          font-size: 20px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          border: 2px solid #667eea;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background: #667eea;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+          }
+
+          &:active {
+            transform: translateY(-1px);
+          }
+        }
+      }
     }
-    .flex_buttons {
-      display: flex;
-      a {
-        @include greyButton;
+  }
+}
+
+// Адаптивность для планшетов
+@media (max-width: 768px) {
+  .mainDiv {
+    padding: 20px 15px;
+
+    .container {
+      gap: 30px;
+
+      .hero {
+        padding: 40px 20px;
+
+        .title {
+          font-size: 40px;
+        }
+
+        .subtitle {
+          font-size: 22px;
+        }
+
+        .description {
+          font-size: 16px;
+        }
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+        gap: 20px;
+
+        .featureCard {
+          padding: 30px 20px;
+
+          .icon {
+            font-size: 40px;
+          }
+
+          h3 {
+            font-size: 20px;
+          }
+
+          p {
+            font-size: 14px;
+          }
+        }
+      }
+
+      .ctaSection {
+        padding: 35px 20px;
+
+        .authButtons {
+          .welcomeText {
+            font-size: 20px;
+          }
+
+          .primaryButton,
+          .secondaryButton {
+            font-size: 18px;
+            padding: 14px 36px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Адаптивность для мобильных
+@media (max-width: 480px) {
+  .mainDiv {
+    padding: 15px 10px;
+
+    .container {
+      gap: 20px;
+
+      .hero {
+        padding: 30px 15px;
+
+        .title {
+          font-size: 32px;
+        }
+
+        .subtitle {
+          font-size: 18px;
+        }
+
+        .description {
+          font-size: 14px;
+        }
+      }
+
+      .features {
+        .featureCard {
+          padding: 25px 15px;
+        }
+      }
+
+      .ctaSection {
+        padding: 30px 15px;
+
+        .authButtons {
+          .welcomeText {
+            font-size: 18px;
+          }
+
+          .primaryButton,
+          .secondaryButton {
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 24px;
+          }
+        }
       }
     }
   }

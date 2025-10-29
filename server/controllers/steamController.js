@@ -150,6 +150,11 @@ class steamController {
       const steamAccounts = await sequelize.models.SteamAccount.findAll({
         where: { userId: req.user.id },
       });
+      if (!steamAccounts) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Steam accounts not found" });
+      }
       return res
         .status(200)
         .json({ success: true, steamAccounts: steamAccounts });

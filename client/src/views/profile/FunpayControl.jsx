@@ -7,6 +7,12 @@ import { Link } from "react-router-dom";
 const FunpayControl = () => {
   const [IsModalOpen, SetIsModalOpen] = useState(false);
   const { fpaccounts } = useAuth();
+  // const fpaccounts = [
+  //   {
+  //     id: "b56ff912-aba0-4ddd-9928-6541d4d5d055",
+  //     funpayName: "ytka",
+  //   },
+  // ];
   const handleDelete = () => {
     try {
       const response = api("/addfpaccount");

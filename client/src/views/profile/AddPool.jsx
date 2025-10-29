@@ -2,71 +2,37 @@ import styles from "./addPool.module.scss";
 import api from "../../middleware/api";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import NotificationModal from "../../UI/notificationModal/NotificationModal";
 const AddPool = () => {
   const location = useLocation();
-  const [steamAccounts, setSteamAccounts] = useState([
-    {
-      id: "b3f9a2c4-8e2a-4d1f-9c6b-2a1d4f6e7b88",
-      steamLogin: "gamer_one",
-    },
-    {
-      id: "c6d1b3e7-2a11-4a9f-9d55-3c9b8a7f1234",
-      userId: "d9f8c7b6-1234-4bcd-9aef-5a6b7c8d9e01",
-      steamLogin: "noob_master",
-      steamPassword: "v1:BASE64_ENC_PAYLOAD_DEF789",
-      access_token: null,
-      refresh_token: null,
-      provider: "password",
-      status: "disabled",
-      email: "noob_master@mail.com",
-      game: "Dota 2",
-      steam_refresh_token: "v1:BASE64_STEAM_REFRESH_456DEF==",
-      steam_id: "76561198000000002",
-      createdAt: "2025-09-10T16:00:00.000Z",
-      updatedAt: "2025-10-01T11:25:10.000Z",
-    },
-    {
-      id: "a1e2b3c4-d5f6-47a8-b9c0-112233445566",
-      userId: "aa11bb22-33cc-44dd-55ee-66778899aabb",
-      steamLogin: "pro_player",
-      steamPassword: "v1:BASE64_ENC_PAYLOAD_XYZ000",
-      access_token: "v1:BASE64_ENC_TOKEN_XYZ789==",
-      refresh_token: "v1:BASE64_ENC_REFRESH_XYZ101==",
-      provider: "oauth",
-      status: "active",
-      email: "pro.player@provider.com",
-      game: "Valheim",
-      steam_refresh_token: null,
-      steam_id: "76561198000000003",
-      createdAt: "2025-01-05T08:30:00.000Z",
-      updatedAt: "2025-06-20T12:45:30.000Z",
-    },
-  ]);
-  const services = [
-    {
-      id: "1",
-      name: "Test",
-      price: "100",
-    },
-    {
-      id: "2",
-      name: "Test 2",
-      price: "200",
-    },
-  ];
-
+  const [steamAccounts, setSteamAccounts] = useState([]);
   const [selectedSteamAccount, setSelectedSteamAccount] = useState("");
   const [selectedService, setSelectedService] = useState("");
   const [poolAccounts, setPoolAccounts] = useState([]);
   const [poolServices, setPoolServices] = useState([]);
   const [namePool, setNamePool] = useState("");
-  //const services = location.state?.services || [];
+  const [services, setServices] = useState([]);
   const funpayAccountId = location.state?.funpayAccountId || "";
+  const [responseMessage, setResponseMessage] = useState(null);
+  const [responseStatus, setResponseStatus] = useState(null);
+  const [notificationKey, setNotificationKey] = useState(0);
   useEffect(() => {
     const handleGetSteamAccounts = async () => {
       try {
         const response = await api.get(`/steam/getaccounts`);
+        if (response.data.success === false) {
+          console.log("Нету сервисов");
+          return;
+        }
         setSteamAccounts(response.data.steamAccounts);
+        const responseServices = await api.get(
+          `/funpay/getInitializedServices/${funpayAccountId}`
+        );
+        if (responseServices.data.success === false) {
+          console.log("Нету аккаунтов");
+          return;
+        }
+        setServices(responseServices.data.services);
       } catch {}
     };
     handleGetSteamAccounts();
@@ -86,7 +52,6 @@ const AddPool = () => {
 
   const handleAddService = () => {
     if (!selectedService) return;
-
     const service = services.find((srv) => srv.id === selectedService);
     if (service && !poolServices.find((srv) => srv.id === service.id)) {
       setPoolServices([...poolServices, service]);
@@ -113,6 +78,13 @@ const AddPool = () => {
       if (response.data.success) {
         setPoolAccounts([]);
         setPoolServices([]);
+        setResponseMessage(response.data.message);
+        setResponseStatus(true);
+        setNotificationKey((prev) => prev + 1);
+      } else {
+        setResponseMessage(response.data.message);
+        setResponseStatus(false);
+        setNotificationKey((prev) => prev + 1);
       }
     } catch (error) {
       console.error("Error creating pool:", error);
@@ -122,6 +94,11 @@ const AddPool = () => {
 
   return (
     <div className={styles.main}>
+      <NotificationModal
+        responseMessage={responseMessage}
+        responseStatus={responseStatus}
+        notificationKey={notificationKey}
+      />
       <h1>Create Pool</h1>
 
       {/* Select Steam Account */}

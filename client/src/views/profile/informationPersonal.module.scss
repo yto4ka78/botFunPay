@@ -1,38 +1,242 @@
 @import "../../assets/global.scss";
+@import "../../assets/fonts.scss";
 
 .main {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 0;
+
   h1 {
-    font-weight: 300;
+    font-weight: 600;
     font-family: "Alan Sans";
+    font-size: 36px;
+    color: #333;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .info_user {
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    .label {
-      font-size: 18px;
-      font-family: "Barlow Condensed";
-    }
-    .value {
-      font-family: "Barlow Condensed";
-      font-weight: 600;
-      margin-bottom: 5px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 25px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+
+    > div {
+      padding: 15px;
+      border-radius: 8px;
+      background: linear-gradient(
+        135deg,
+        rgba(102, 126, 234, 0.05) 0%,
+        rgba(118, 75, 162, 0.05) 100%
+      );
+      border: 1px solid rgba(102, 126, 234, 0.1);
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+      }
+
+      .label {
+        font-size: 14px;
+        font-family: "Barlow Condensed";
+        color: #667eea;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .value {
+        font-family: "Barlow Condensed";
+        font-weight: 600;
+        font-size: 22px;
+        color: #333;
+        margin: 0;
+        word-break: break-word;
+      }
     }
   }
+
   .change_info_user {
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 25px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
     h2 {
-      margin: 0;
-      font-weight: 300;
+      margin: 0 0 20px 0;
+      font-weight: 600;
+      font-family: "Alan Sans";
+      font-size: 28px;
+      color: #333;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
     }
+
     form {
-      @include formBasic;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      label {
+        font-family: "Barlow Condensed";
+        font-size: 16px;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: -12px;
+        display: block;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-family: "Arimo";
+        font-size: 16px;
+        color: #333;
+        transition: all 0.3s ease;
+        background-color: #fafafa;
+
+        &:focus {
+          outline: none;
+          border-color: #667eea;
+          background-color: #ffffff;
+          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        &::placeholder {
+          color: #999;
+        }
+      }
+
+      button {
+        align-self: flex-start;
+        padding: 12px 32px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-family: "Barlow Condensed";
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 10px;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+}
+
+// Адаптивность для планшетов
+@media (max-width: 768px) {
+  .main {
+    padding: 10px 0;
+    gap: 15px;
+
+    h1 {
+      font-size: 28px;
+    }
+
+    .info_user {
+      padding: 20px;
+      grid-template-columns: 1fr;
+
+      > div {
+        padding: 12px;
+
+        .label {
+          font-size: 12px;
+        }
+
+        .value {
+          font-size: 20px;
+        }
+      }
+    }
+
+    .change_info_user {
+      padding: 20px;
+
+      h2 {
+        font-size: 24px;
+      }
+
+      form {
+        gap: 15px;
+
+        label {
+          font-size: 14px;
+        }
+
+        input {
+          padding: 10px 14px;
+          font-size: 14px;
+        }
+
+        button {
+          padding: 10px 24px;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+// Адаптивность для мобильных
+@media (max-width: 480px) {
+  .main {
+    h1 {
+      font-size: 24px;
+    }
+
+    .info_user {
+      padding: 15px;
+
+      > div {
+        padding: 10px;
+
+        .value {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .change_info_user {
+      padding: 15px;
+
+      h2 {
+        font-size: 20px;
+      }
+
+      form {
+        button {
+          width: 100%;
+          padding: 12px;
+        }
+      }
     }
   }
 }

@@ -1,34 +1,67 @@
 @import "../../assets/global.scss";
 @import "../../assets/fonts.scss";
+
 .main {
   @include mainContainer;
   flex-direction: column;
   width: 1280px;
+  gap: 10px;
+
   .navbar_profile {
-    border-radius: 10px;
-    margin: 10px 0;
     width: 100%;
     display: flex;
-    background-color: rgb(102, 102, 102);
+    gap: 8px;
+    background: #f3f4f6;
+    border-radius: 0px 0px 12px 12px;
+    padding: 6px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+
     button {
-      color: rgb(202, 202, 202);
-      margin: 5px 10px;
-      border-radius: 5px;
-      padding: 10px;
+      flex: 1;
+      color: #6b7280;
+      padding: 12px 20px;
+      border-radius: 8px;
       border: none;
-      background-color: none;
-      font-size: 18px;
-      font-family: "Arimo";
-      transition: 0.3s ease-in-out;
-      border-bottom: 1px solid transparent;
-      background-color: rgba(0, 0, 0, 0);
+      background: transparent;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: "Alan Sans";
       cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      text-transform: capitalize;
+
       &:hover {
-        border-bottom-color: rgb(202, 202, 202);
+        color: #374151;
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      &.active {
+        color: white;
+        background: linear-gradient(135deg, #818181 0%, #98b8ff 100%);
+        box-shadow: 0 2px 8px rgba(158, 195, 255, 0.3);
+        font-weight: 600;
+      }
+
+      &:not(.active) {
+        color: #6b7280;
       }
     }
   }
+
   .profile_view {
     width: 100%;
+    animation: fadeIn 0.3s ease;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

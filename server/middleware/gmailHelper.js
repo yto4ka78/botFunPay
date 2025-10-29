@@ -205,22 +205,8 @@ export const getSteamGuardCode = async (
         const subject = headers.find((h) => h.name === "Subject")?.value || "";
         const from = headers.find((h) => h.name === "From")?.value || "";
 
-        console.log(`📧 Письмо найдено:`);
-        console.log(`   От: ${from}`);
-        console.log(`   Тема: ${subject}`);
-        console.log(
-          `   Время: ${new Date(
-            messageTime
-          ).toLocaleString()} (${ageMinutes} мин. назад)`
-        );
-
         // Извлекаем текст письма
         const emailBody = getEmailBody(latestMessage.data);
-
-        console.log("\n📄 ПОЛНОЕ содержимое письма:");
-        console.log("=".repeat(80));
-        console.log(emailBody);
-        console.log("=".repeat(80));
 
         // Специальный поиск в HTML - ищем код в ячейке таблицы с большим шрифтом
         const findHtmlPart = (parts) => {

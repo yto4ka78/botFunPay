@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./profileNavigator.module.scss";
 import InformationPersonal from "./InformationPersonal";
 import FunpayControl from "./FunpayControl";
-import SteamAccountsManager from "./SteamAccountsManager";
+import SteamAccountsControl from "./SteamAccountsControl";
 
 const ProfileNavigator = () => {
   const [activeProfileView, setActiveProfileView] = useState(
@@ -15,8 +15,8 @@ const ProfileNavigator = () => {
         return <InformationPersonal />;
       case "FunpayControl":
         return <FunpayControl />;
-      case "SteamAccountsManager":
-        return <SteamAccountsManager />;
+      case "SteamAccountsControl":
+        return <SteamAccountsControl />;
       default:
         return <InformationPersonal />;
     }
@@ -26,6 +26,9 @@ const ProfileNavigator = () => {
     <div className={styles.main}>
       <div className={styles.navbar_profile}>
         <button
+          className={
+            activeProfileView === "informationPersonal" ? styles.active : ""
+          }
           onClick={() => {
             setActiveProfileView("informationPersonal");
           }}
@@ -33,6 +36,7 @@ const ProfileNavigator = () => {
           Information personal
         </button>
         <button
+          className={activeProfileView === "FunpayControl" ? styles.active : ""}
           onClick={() => {
             setActiveProfileView("FunpayControl");
           }}
@@ -40,8 +44,11 @@ const ProfileNavigator = () => {
           Funpay control
         </button>
         <button
+          className={
+            activeProfileView === "SteamAccountsControl" ? styles.active : ""
+          }
           onClick={() => {
-            setActiveProfileView("SteamAccountsManager");
+            setActiveProfileView("SteamAccountsControl");
           }}
         >
           Steam accounts
