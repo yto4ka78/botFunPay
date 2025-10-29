@@ -2,177 +2,423 @@
 @import "../../assets/fonts.scss";
 
 .main {
-  padding: 20px;
+  width: 100%;
+  padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
+  min-height: 100vh;
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
 
-  h1 {
-    color: #333;
-    margin-bottom: 30px;
-    font-size: 28px;
+    h1 {
+      font-family: "Alan Sans";
+      font-size: 36px;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    p {
+      font-family: "Arimo";
+      font-size: 16px;
+      color: #6b7280;
+      margin: 0;
+    }
   }
-}
 
-.select_section {
-  margin-bottom: 25px;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
 
-  label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: 600;
-    color: #555;
+  .selectCard,
+  .poolCard {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .cardHeader {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
+
+      h2 {
+        font-family: "Alan Sans";
+        font-size: 24px;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 0;
+      }
+    }
+  }
+
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    label {
+      font-family: "Barlow Condensed";
+      font-size: 16px;
+      font-weight: 600;
+      color: #374151;
+      letter-spacing: 0.3px;
+    }
+
+    .select_row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .select {
+      flex: 1;
+      padding: 14px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: "Arimo";
+      color: #1f2937;
+      transition: all 0.3s ease;
+      background-color: #fafafa;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23374151' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+
+      &:hover {
+        border-color: #d1d5db;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #667eea;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      }
+
+      &::placeholder {
+        color: #9ca3af;
+      }
+    }
+
+    .nameInput {
+      padding: 14px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: "Arimo";
+      color: #1f2937;
+      transition: all 0.3s ease;
+      background-color: #fafafa;
+
+      &:focus {
+        outline: none;
+        border-color: #667eea;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      }
+
+      &::placeholder {
+        color: #9ca3af;
+      }
+    }
+  }
+
+  .add_button {
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-family: "Barlow Condensed";
     font-size: 16px;
-  }
-}
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    white-space: nowrap;
 
-.select_row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
 
-.select {
-  flex: 1;
-  padding: 10px 15px;
-  border: 2px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: white;
-  cursor: pointer;
-  transition: border-color 0.3s;
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
 
-  &:hover {
-    border-color: #999;
-  }
-
-  &:focus {
-    outline: none;
-    border-color: #4a90e2;
-  }
-}
-
-.add_button {
-  padding: 10px 25px;
-  background-color: #4a90e2;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  white-space: nowrap;
-
-  &:hover {
-    background-color: #357abd;
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
   }
 
-  &:active {
-    background-color: #2a5f9e;
-  }
-}
+  .listSection {
+    margin-bottom: 30px;
 
-.pool_section {
-  margin-top: 40px;
-  padding: 25px;
-  background-color: #fff;
-  border: 2px solid #e0e0e0;
-  border-radius: 10px;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
 
-  h2 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 24px;
-    border-bottom: 2px solid #4a90e2;
-    padding-bottom: 10px;
-  }
-}
-
-.pool_subsection {
-  margin-bottom: 30px;
-
-  &:last-child {
-    margin-bottom: 0;
+    h3 {
+      font-family: "Barlow Condensed";
+      font-size: 18px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
   }
 
-  h3 {
-    color: #555;
-    margin-bottom: 15px;
+  .pool_items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+  }
+
+  .pool_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(
+      135deg,
+      rgba(102, 126, 234, 0.05) 0%,
+      rgba(118, 75, 162, 0.05) 100%
+    );
+    border: 2px solid rgba(102, 126, 234, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateX(4px);
+      border-color: rgba(102, 126, 234, 0.3);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    }
+
+    .itemContent {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+
+      .itemLabel {
+        font-size: 20px;
+      }
+
+      .itemText {
+        font-family: "Arimo";
+        font-size: 16px;
+        color: #1f2937;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .remove_button {
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: "Barlow Condensed";
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  .create_pool_button {
+    width: 100%;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-family: "Barlow Condensed";
     font-size: 18px;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    margin-top: 20px;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
   }
-  input {
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid gray;
-    transition: 0.3s ease-in-out;
-    font-size: 16px;
+
+  .empty_message {
     font-family: "Arimo";
-    &:focus {
-      outline: none;
-      border: 1px solid #525151;
+    color: #9ca3af;
+    font-style: italic;
+    padding: 20px;
+    text-align: center;
+    background: linear-gradient(
+      135deg,
+      rgba(102, 126, 234, 0.03) 0%,
+      rgba(118, 75, 162, 0.03) 100%
+    );
+    border-radius: 12px;
+    border: 2px dashed rgba(102, 126, 234, 0.2);
+    font-size: 15px;
+  }
+}
+
+// Адаптивность для планшетов
+@media (max-width: 768px) {
+  .main {
+    padding: 30px 15px;
+
+    .header {
+      margin-bottom: 30px;
+
+      h1 {
+        font-size: 28px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+
+    .selectCard,
+    .poolCard {
+      padding: 25px 20px;
+
+      .cardHeader {
+        h2 {
+          font-size: 20px;
+        }
+      }
+    }
+
+    .inputGroup {
+      .select_row {
+        flex-direction: column;
+        gap: 10px;
+
+        .select {
+          width: 100%;
+        }
+
+        .add_button {
+          width: 100%;
+        }
+      }
+    }
+
+    .pool_item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+
+      .remove_button {
+        width: 100%;
+      }
     }
   }
 }
 
-.pool_items {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+// Адаптивность для мобильных
+@media (max-width: 480px) {
+  .main {
+    padding: 20px 10px;
 
-.pool_item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  transition: background-color 0.2s;
+    .header {
+      margin-bottom: 20px;
 
-  &:hover {
-    background-color: #f0f0f0;
+      h1 {
+        font-size: 24px;
+      }
+
+      p {
+        font-size: 13px;
+      }
+    }
+
+    .selectCard,
+    .poolCard {
+      padding: 20px 15px;
+      border-radius: 12px;
+
+      .cardHeader {
+        h2 {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .inputGroup {
+      label {
+        font-size: 14px;
+      }
+
+      .select,
+      .nameInput {
+        padding: 12px 14px;
+        font-size: 14px;
+      }
+    }
+
+    .add_button,
+    .create_pool_button {
+      font-size: 14px;
+      padding: 12px 20px;
+    }
+
+    .pool_item {
+      padding: 12px 15px;
+
+      .itemText {
+        font-size: 14px;
+      }
+    }
   }
-
-  span {
-    color: #333;
-    font-size: 14px;
-  }
-}
-
-.remove_button {
-  padding: 6px 15px;
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #c0392b;
-  }
-
-  &:active {
-    background-color: #a93226;
-  }
-}
-.create_pool_button {
-  @include addButton;
-}
-.empty_message {
-  color: #999;
-  font-style: italic;
-  padding: 15px;
-  text-align: center;
-  background-color: #fafafa;
-  border-radius: 6px;
-  border: 1px dashed #ddd;
 }

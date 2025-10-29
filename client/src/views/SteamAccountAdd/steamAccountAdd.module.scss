@@ -2,123 +2,310 @@
 @import "../../assets/fonts.scss";
 
 .main {
-  @include mainContainer;
-  flex-direction: column;
+  display: flex;
+  justify-content: center;
   align-items: flex-start;
-  width: 1280px;
-  h1 {
-    font-weight: 300;
-    font-family: "Alan Sans";
-    margin: 10px 0px;
-  }
-  .formDiv {
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 10px;
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding-top: 40px;
+  .container {
+    max-width: 800px;
     width: 100%;
-    .step {
-      font-size: 24px;
-      font-family: "Barlow Condensed";
-      margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .header {
+      text-align: center;
+
+      h1 {
+        font-family: "Alan Sans";
+        font-size: 36px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      p {
+        font-family: "Arimo";
+        font-size: 16px;
+        color: #6b7280;
+        margin: 0;
+      }
     }
-    h3 {
-      font-weight: 300;
-      font-family: "Alan Sans";
-      margin-bottom: 10px;
-    }
-    form {
-      width: 50%;
-      display: flex;
-      flex-direction: column;
-      .notificationMessage {
-        background-color: #80000018;
-        padding: 10px;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        text-align: center;
-        font-family: "Barlow Condensed";
-        font-size: 18px;
-        font-weight: 300;
-      }
-      label {
-        font-size: 18px;
-        font-family: "Barlow Condensed";
-        margin-bottom: 5px;
-      }
-      input {
-        border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid black;
-      }
-      .info {
-        font-family: "Barlow Condensed";
-        margin-bottom: 10px;
-        text-decoration: underline;
-        font-size: 20px;
-      }
-      .game_input_container {
+
+    .formCard {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e0e0e0;
+
+      .warningBanner {
         display: flex;
-        align-items: flex-end;
-        gap: 10px;
-        margin-bottom: 10px;
-        .game_input_flex {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          input {
-            margin-bottom: 0;
-          }
+        align-items: center;
+        gap: 12px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 193, 7, 0.1) 0%,
+          rgba(255, 152, 0, 0.1) 100%
+        );
+        border: 2px solid #ffc107;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 25px;
+
+        .warningIcon {
+          font-size: 24px;
+          flex-shrink: 0;
         }
-        button {
-          margin-bottom: 0;
-          padding: 10px 20px;
-          white-space: nowrap;
-        }
-      }
-      .games_container {
-        border: 1px solid black;
-        border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 10px;
-        min-height: 50px;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        .empty_message {
-          margin: 0;
-          padding: 10px;
-          text-align: center;
+
+        p {
           font-family: "Barlow Condensed";
           font-size: 16px;
-          color: #666;
-          font-style: italic;
+          font-weight: 600;
+          color: #f57c00;
+          margin: 0;
+          line-height: 1.4;
         }
-        > div {
+      }
+
+      .notificationMessage {
+        background: linear-gradient(
+          135deg,
+          rgba(244, 67, 54, 0.1) 0%,
+          rgba(211, 47, 47, 0.1) 100%
+        );
+        border: 2px solid #f44336;
+        padding: 14px 18px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-family: "Barlow Condensed";
+        font-size: 16px;
+        font-weight: 600;
+        color: #c62828;
+      }
+
+      form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .inputGroup {
           display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 5px 10px;
-          background-color: #f0f0f0;
-          border-radius: 5px;
-          p {
-            margin: 0;
+          flex-direction: column;
+          gap: 8px;
+
+          label {
             font-family: "Barlow Condensed";
             font-size: 16px;
+            font-weight: 600;
+            color: #374151;
+            letter-spacing: 0.3px;
           }
-          button {
-            padding: 5px 10px;
+
+          input,
+          select {
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: "Arimo";
+            color: #1f2937;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+
+            &:focus {
+              outline: none;
+              border-color: #667eea;
+              background-color: #ffffff;
+              box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            }
+
+            &::placeholder {
+              color: #9ca3af;
+            }
+
+            &:hover {
+              border-color: #d1d5db;
+            }
+          }
+
+          select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23374151' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+          }
+        }
+
+        .buttonRow {
+          display: flex;
+          gap: 15px;
+          margin-top: 10px;
+
+          .submitButton {
+            flex: 1;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-family: "Barlow Condensed";
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+            }
+
+            &:active {
+              transform: translateY(0);
+            }
+
+            &:disabled {
+              opacity: 0.6;
+              cursor: not-allowed;
+              transform: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Адаптивность для планшетов
+@media (max-width: 768px) {
+  .main {
+    padding: 30px 15px;
+
+    .container {
+      gap: 20px;
+
+      .header {
+        h1 {
+          font-size: 28px;
+        }
+
+        p {
+          font-size: 14px;
+        }
+      }
+
+      .formCard {
+        padding: 30px 25px;
+
+        .warningBanner {
+          padding: 14px 16px;
+
+          .warningIcon {
+            font-size: 20px;
+          }
+
+          p {
             font-size: 14px;
           }
         }
+
+        form {
+          gap: 18px;
+
+          .inputGroup {
+            label {
+              font-size: 15px;
+            }
+
+            input,
+            select {
+              padding: 12px 14px;
+              font-size: 15px;
+            }
+          }
+
+          .buttonRow {
+            .submitButton {
+              font-size: 16px;
+              padding: 12px 20px;
+            }
+          }
+        }
       }
-      .buttonRow {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 10px;
+    }
+  }
+}
+
+// Адаптивность для мобильных
+@media (max-width: 480px) {
+  .main {
+    padding: 20px 10px;
+
+    .container {
+      .header {
+        h1 {
+          font-size: 24px;
+        }
+
+        p {
+          font-size: 13px;
+        }
       }
-      button {
-        @include addButton;
+
+      .formCard {
+        padding: 25px 20px;
+        border-radius: 16px;
+
+        .warningBanner {
+          padding: 12px 14px;
+          flex-direction: column;
+          text-align: center;
+          gap: 8px;
+
+          p {
+            font-size: 13px;
+          }
+        }
+
+        form {
+          gap: 15px;
+
+          .inputGroup {
+            gap: 6px;
+
+            label {
+              font-size: 14px;
+            }
+
+            input,
+            select {
+              padding: 11px 12px;
+              font-size: 14px;
+            }
+          }
+
+          .buttonRow {
+            flex-direction: column;
+
+            .submitButton {
+              font-size: 15px;
+              padding: 12px 18px;
+            }
+          }
+        }
       }
     }
   }

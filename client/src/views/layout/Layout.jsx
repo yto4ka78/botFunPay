@@ -7,8 +7,8 @@ export default function Layout() {
   return (
     <AuthProvider>
       <div className={styles.back_ground}>
+        <Navbar />
         <div className={styles.root_div}>
-          <Navbar />
           <Outlet />
         </div>
       </div>

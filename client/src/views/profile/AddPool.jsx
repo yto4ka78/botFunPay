@@ -99,119 +99,160 @@ const AddPool = () => {
         responseStatus={responseStatus}
         notificationKey={notificationKey}
       />
-      <h1>Create Pool</h1>
 
-      {/* Select Steam Account */}
-      <div className={styles.select_section}>
-        <label htmlFor="steamAccount">Select Steam account:</label>
-        <div className={styles.select_row}>
-          <select
-            id="steamAccount"
-            value={selectedSteamAccount}
-            onChange={(e) => setSelectedSteamAccount(e.target.value)}
-            className={styles.select}
-          >
-            <option value="">-- Select account --</option>
-            {steamAccounts.map((account) => (
-              <option key={account.id} value={account.id}>
-                {account.steamLogin}
-              </option>
-            ))}
-          </select>
-          <button onClick={handleAddSteamAccount} className={styles.add_button}>
-            Add
-          </button>
-        </div>
+      <div className={styles.header}>
+        <h1>Create Pool</h1>
+        <p>Configure your pool with Steam accounts and services</p>
       </div>
 
-      {/* Select Service */}
-      <div className={styles.select_section}>
-        <label htmlFor="service">Select service:</label>
-        <div className={styles.select_row}>
-          <select
-            id="service"
-            value={selectedService}
-            onChange={(e) => setSelectedService(e.target.value)}
-            className={styles.select}
-          >
-            <option value="">-- Select service --</option>
-            {services.map((service) => (
-              <option key={service.id} value={service.id}>
-                {service.name} - {service.price}₽
-              </option>
-            ))}
-          </select>
-          <button onClick={handleAddService} className={styles.add_button}>
-            Add
-          </button>
-        </div>
-      </div>
-
-      {/* Pool */}
-      <div className={styles.pool_section}>
-        <h2>Pool</h2>
-
-        <div className={styles.pool_subsection}>
-          <h3 className={styles.h3}>Name of pool</h3>
-          <input
-            type="text"
-            id="namePool"
-            value={namePool}
-            onChange={(e) => setNamePool(e.target.value)}
-          />
-        </div>
-        {/* List of added accounts */}
-        <div className={styles.pool_subsection}>
-          <h3>Accounts:</h3>
-          <div className={styles.pool_items}>
-            {poolAccounts.length > 0 ? (
-              poolAccounts.map((account) => (
-                <div key={account.id} className={styles.pool_item}>
-                  <span>{account.steamLogin}</span>
-                  <button
-                    onClick={() => handleRemoveAccount(account.id)}
-                    className={styles.remove_button}
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))
-            ) : (
-              <p className={styles.empty_message}>No added accounts</p>
-            )}
+      <div className={styles.container}>
+        {/* Select Steam Account */}
+        <div className={styles.selectCard}>
+          <div className={styles.cardHeader}>
+            <h2>Add Steam Account</h2>
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="steamAccount">Select Steam account</label>
+            <div className={styles.select_row}>
+              <select
+                id="steamAccount"
+                value={selectedSteamAccount}
+                onChange={(e) => setSelectedSteamAccount(e.target.value)}
+                className={styles.select}
+              >
+                <option value="">-- Select account --</option>
+                {steamAccounts.map((account) => (
+                  <option key={account.id} value={account.id}>
+                    {account.steamLogin}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={handleAddSteamAccount}
+                className={styles.add_button}
+                disabled={!selectedSteamAccount}
+              >
+                Add
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* List of added services */}
-        <div className={styles.pool_subsection}>
-          <h3>Services:</h3>
-          <div className={styles.pool_items}>
-            {poolServices.length > 0 ? (
-              poolServices.map((service) => (
-                <div key={service.id} className={styles.pool_item}>
-                  <span>
+        {/* Select Service */}
+        <div className={styles.selectCard}>
+          <div className={styles.cardHeader}>
+            <h2>Add Service</h2>
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="service">Select service</label>
+            <div className={styles.select_row}>
+              <select
+                id="service"
+                value={selectedService}
+                onChange={(e) => setSelectedService(e.target.value)}
+                className={styles.select}
+              >
+                <option value="">-- Select service --</option>
+                {services.map((service) => (
+                  <option key={service.id} value={service.id}>
                     {service.name} - {service.price}₽
-                  </span>
-                  <button
-                    onClick={() => handleRemoveService(service.id)}
-                    className={styles.remove_button}
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))
-            ) : (
-              <p className={styles.empty_message}>No added services</p>
-            )}
-            <button
-              className={styles.create_pool_button}
-              onClick={() => {
-                handleCreatePool();
-              }}
-            >
-              Create pool
-            </button>
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={handleAddService}
+                className={styles.add_button}
+                disabled={!selectedService}
+              >
+                Add
+              </button>
+            </div>
           </div>
+        </div>
+
+        {/* Pool Configuration */}
+        <div className={styles.poolCard}>
+          <div className={styles.cardHeader}>
+            <h2>Pool Configuration</h2>
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label htmlFor="namePool">Pool Name</label>
+            <input
+              type="text"
+              id="namePool"
+              value={namePool}
+              onChange={(e) => setNamePool(e.target.value)}
+              placeholder="Enter pool name"
+              className={styles.nameInput}
+            />
+          </div>
+
+          {/* List of added accounts */}
+          <div className={styles.listSection}>
+            <h3>Accounts ({poolAccounts.length})</h3>
+            <div className={styles.pool_items}>
+              {poolAccounts.length > 0 ? (
+                poolAccounts.map((account) => (
+                  <div key={account.id} className={styles.pool_item}>
+                    <div className={styles.itemContent}>
+                      <span className={styles.itemLabel}>🎮</span>
+                      <span className={styles.itemText}>
+                        {account.steamLogin}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => handleRemoveAccount(account.id)}
+                      className={styles.remove_button}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <p className={styles.empty_message}>No accounts added yet</p>
+              )}
+            </div>
+          </div>
+
+          {/* List of added services */}
+          <div className={styles.listSection}>
+            <h3>Services ({poolServices.length})</h3>
+            <div className={styles.pool_items}>
+              {poolServices.length > 0 ? (
+                poolServices.map((service) => (
+                  <div key={service.id} className={styles.pool_item}>
+                    <div className={styles.itemContent}>
+                      <span className={styles.itemLabel}>💰</span>
+                      <span className={styles.itemText}>
+                        {service.name} - {service.price}₽
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => handleRemoveService(service.id)}
+                      className={styles.remove_button}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <p className={styles.empty_message}>No services added yet</p>
+              )}
+            </div>
+          </div>
+
+          <button
+            className={styles.create_pool_button}
+            onClick={handleCreatePool}
+            disabled={
+              !namePool ||
+              poolAccounts.length === 0 ||
+              poolServices.length === 0
+            }
+          >
+            Create Pool
+          </button>
         </div>
       </div>
     </div>

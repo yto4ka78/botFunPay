@@ -234,7 +234,7 @@ const FunpayAccountManager = () => {
         )
       ) : (
         <div className={styles.without_services}>
-          No available services from API
+          No available services from Funpay
         </div>
       )}
 

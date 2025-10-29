@@ -1,15 +1,15 @@
 import styles from "./steamAccountAdd.module.scss";
 import api from "../../middleware/api";
 import { useState } from "react";
+
 const SteamAccountAdd = () => {
-  const [emailType, setEmailType] = useState(""); // "gmail" или "mailru"
+  const [emailType, setEmailType] = useState("");
   const [formData, setFormData] = useState({
     steamLogin: "",
     steamPassword: "",
     email: "",
     emailPassword: "",
   });
-  const [currentGame, setCurrentGame] = useState("");
   const [responseMessage, setResponseMessage] = useState(null);
 
   const handleChange = (e) => {
@@ -20,25 +20,6 @@ const SteamAccountAdd = () => {
   const handleEmailTypeChange = (e) => {
     setEmailType(e.target.value);
     setResponseMessage(null);
-  };
-
-  const handleAddGame = (e) => {
-    e.preventDefault();
-    if (currentGame.trim() !== "") {
-      setFormData((prev) => ({
-        ...prev,
-        games: [...prev.games, currentGame.trim()],
-      }));
-      setCurrentGame("");
-    }
-  };
-
-  const handleRemoveGame = (e, gameToRemove) => {
-    e.preventDefault();
-    setFormData((prev) => ({
-      ...prev,
-      games: prev.games.filter((g) => g !== gameToRemove),
-    }));
   };
 
   const handleGmail = async () => {
@@ -55,101 +36,121 @@ const SteamAccountAdd = () => {
     }
   };
 
-  // const handleMailRu = async () => {
-  //   try {
-  //     await api.post("/steam/addMailRuAccount", formData);
-  //   } catch (error) {
-  //     console.error("Error in handleMailRu " + error);
-  //   }
-  // };
-
   return (
     <div className={styles.main}>
-      <h1>Add new Steam account</h1>
-      <div className={styles.formDiv}>
-        <form action="">
-          <h3>⚠️ This login and password will be send to client at funpay</h3>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h1>Add New Steam Account</h1>
+          <p>Connect your Steam account to get started</p>
+        </div>
+
+        <div className={styles.formCard}>
+          <div className={styles.warningBanner}>
+            <span className={styles.warningIcon}>⚠️</span>
+            <p>This login and password will be sent to the client at FunPay</p>
+          </div>
+
           {responseMessage && (
             <div className={styles.notificationMessage}>{responseMessage}</div>
           )}
 
-          {/* Выбор типа почты */}
-          <label htmlFor="emailType">Email Type</label>
-          <select
-            name="emailType"
-            id="emailType"
-            value={emailType}
-            onChange={handleEmailTypeChange}
-            required
-          >
-            <option value="">-- Select Email Type --</option>
-            <option value="gmail">Gmail</option>
-            {/* <option value="mailru">Mail.ru</option> */}
-          </select>
-
-          {/* Основные поля Steam */}
-          {emailType && (
-            <>
-              <label htmlFor="steamLogin">Steam login</label>
-              <input
-                type="text"
-                name="steamLogin"
-                id="steamLogin"
-                value={formData.steamLogin}
-                onChange={handleChange}
+          <form>
+            <div className={styles.inputGroup}>
+              <label htmlFor="emailType">Email Type</label>
+              <select
+                name="emailType"
+                id="emailType"
+                value={emailType}
+                onChange={handleEmailTypeChange}
                 required
-              />
-              <label htmlFor="steamPassword">Steam password</label>
-              <input
-                type="password"
-                name="steamPassword"
-                id="steamPassword"
-                value={formData.steamPassword}
-                onChange={handleChange}
-                required
-              />
+              >
+                <option value="">-- Select Email Type --</option>
+                <option value="gmail">Gmail</option>
+                {/* <option value="mailru">Mail.ru</option> */}
+              </select>
+            </div>
 
-              {/* Дополнительные поля для Mail.ru */}
-              {emailType === "mailru" && (
-                <>
-                  <label htmlFor="email">Email (Mail.ru)</label>
+            {emailType && (
+              <>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="steamLogin">Steam Login</label>
                   <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="example@mail.ru"
-                    value={formData.email}
+                    type="text"
+                    name="steamLogin"
+                    id="steamLogin"
+                    placeholder="Enter your Steam login"
+                    value={formData.steamLogin}
                     onChange={handleChange}
                     required
                   />
-                  <label htmlFor="emailPassword">Email password</label>
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label htmlFor="steamPassword">Steam Password</label>
                   <input
                     type="password"
-                    name="emailPassword"
-                    id="emailPassword"
-                    value={formData.emailPassword}
+                    name="steamPassword"
+                    id="steamPassword"
+                    placeholder="Enter your Steam password"
+                    value={formData.steamPassword}
                     onChange={handleChange}
                     required
                   />
-                </>
-              )}
+                </div>
 
-              {/* Кнопки в зависимости от типа почты */}
-              <div className={styles.buttonRow}>
-                {emailType === "gmail" && (
-                  <button type="button" onClick={handleGmail}>
-                    Add Gmail Account
-                  </button>
-                )}
                 {emailType === "mailru" && (
-                  <button type="button">Add Mail.ru Account</button>
+                  <>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="email">Email (Mail.ru)</label>
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        placeholder="example@mail.ru"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="emailPassword">Email Password</label>
+                      <input
+                        type="password"
+                        name="emailPassword"
+                        id="emailPassword"
+                        placeholder="Enter email password"
+                        value={formData.emailPassword}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  </>
                 )}
-              </div>
-            </>
-          )}
-        </form>
+
+                <div className={styles.buttonRow}>
+                  {emailType === "gmail" && (
+                    <button
+                      type="button"
+                      onClick={handleGmail}
+                      className={styles.submitButton}
+                    >
+                      Add Gmail Account
+                    </button>
+                  )}
+                  {emailType === "mailru" && (
+                    <button type="button" className={styles.submitButton}>
+                      Add Mail.ru Account
+                    </button>
+                  )}
+                </div>
+              </>
+            )}
+          </form>
+        </div>
       </div>
     </div>
   );
 };
+
 export default SteamAccountAdd;
